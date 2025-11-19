@@ -27,7 +27,7 @@ SYNC_MODE = "upsert"
 LOG_FILE = "logs/sync.log"
 SCHEDULE_TIME = "10:00"
 
-DATE_FORMAT = "%m/%d/%Y"
+DATE_FORMAT = "%Y/%m/%d"
 
 MONEY_COLUMNS = ["Revenue", "Price", "Amount", "Cost",  "Salary", "Total", "Value"]
 

@@ -22,6 +22,7 @@ def setup_logging():
     )
 
 def get_excel_files():
+    """获取data目录下的Excel文件"""
     print(f" 查找Excel文件...")
     print(f" DATA_DIR: '{DATA_DIR}'")
     print(f" 绝地路径 = '{os.path.abspath(DATA_DIR)}'")
@@ -44,20 +45,22 @@ def get_excel_files():
     return excel_files
 
 def normalize_sheet_name(sheet_name: str) -> str:
+    """工作表名称规范为MySQL合法表名"""
+    #转小写
     name = str(sheet_name).lower()
+    #替换空格、连字符为下划线
     name = re.sub(r'[^a-zA-Z0-9]', '_' , name)
+    #去除连续下划线
     name = re.sub(r'_+', '_', name)
+    #去除首尾下划线
     name = name.strip('_')
+    #如果工作表名为空则加后缀
     if not name or name[0].isdigit():
         name = "sheet_" + name if name else "sheet"
     return name
 
-    # for file in os.listdir(DATA_DIR):
-    #     if file.lower().endswith(EXCEL_FILE_EXTENSION) and file not in IGNORE_FIELDS:
-    #         excel_files.append(file)
-    # result = excel_files
-
 def filename_to_base_table_name(filename: str) -> str:
+    """文件名规范为MySQL合法表名，同上"""
     base_name = os.path.splitext(filename)[0].lower()
     base_name = re.sub(r'[^a-zA-Z0-9]', '_' , base_name)
     base_name = re.sub(r'_+', '_', base_name).strip('_')
@@ -66,31 +69,43 @@ def filename_to_base_table_name(filename: str) -> str:
     return base_name
 
 def preprocess_dataframe(df: pd.DataFrame, source_info: str) -> pd.DataFrame | None:
+    """
+    预处理可能出现的字段（日期、金额等）
+    :param df:
+    :param source_info:用于日志
+    :return:
+    """
     if df.empty:
-        logging.warning(f" 空工作表：{source_info}")
+        logging.warning(f" ！空工作表：{source_info}")
         return None
+
+    #日期列自动识别
     for col in df.select_dtypes(include=['object']).columns:
         sample = df[col].dropna().head(10)
         if len(sample) == 0:
             continue
         try:
+            #尝试使用统一格式解析
             parsed = pd.to_datetime(sample, format=DATE_FORMAT, errors="coerce")
             if parsed.notna().mean() > 0.5:
                 df[col] = pd.to_datetime(df[col], format=DATE_FORMAT, errors="coerce")
                 logging.info(f"日期列 '{col}' 已转换 ({source_info})")
         except:
             continue
-        # 金额列处理
+
+    # 金额列处理
     for col in MONEY_COLUMNS:
             if col in df.columns:
                 df[col] = pd.to_numeric(df[col], errors="coerce")
                 logging.info(f"金额列 '{col}' 已处理 ({source_info})")
 
+    #清理全空行
     df = df.dropna(how='all')
     logging.info(f"✅ Excel 预处理完成: {source_info} -> {len(df)} 行, {len(df.columns)} 列")
     return df
 
 def get_mysql_type(series: pd.Series, col_name: str) -> str:
+    """根据列类型返回MySQL类型"""
     dtype = str(series.dtype)
 
     if col_name in MONEY_COLUMNS:
@@ -120,6 +135,7 @@ def get_mysql_type(series: pd.Series, col_name: str) -> str:
         return 'TEXT'
 
 def create_table_with_auto_increment(conn, df: pd.DataFrame, table_name: str):
+    """创建自增主键的MySQL数据表"""
     columns_def = ["`id` INT AUTO_INCREMENT PRIMARY KEY"]
 
     for col in df.columns:
@@ -145,17 +161,21 @@ def connect_mysql():
 
 
 def sync_dataframe_to_table(df: pd.DataFrame, table_name: str):
+    """文件数据同步到MySQL表"""
     conn = connect_mysql()
     if not conn or df is None or df.empty:
         return False
 
     try:
+        #创建自增主键表
         create_table_with_auto_increment(conn, df, table_name)
 
+        #准备数据，处理NaN
         cols = [f"`{col}`" for col in df.columns]
         placeholders = ",".join(["%s"] * len(cols))
         sql = f"INSERT INTO `{table_name}` ({', '.join(cols)}) VALUES ({placeholders})"
 
+        #转换NaN为None
         data = []
         for row in df.values:
             clear_row = [None if pd.isna(val) else val for val in row]
@@ -179,6 +199,13 @@ def sync_dataframe_to_table(df: pd.DataFrame, table_name: str):
         conn.close()
 
 def sync_single_excel_all_sheets(file_path: str, filename: str):
+    """
+    同步单个Excel文件中的所有工作表到独立的MySQL表
+
+    表命名规则：
+    - 单工作表：filename -> tablename
+    - 多工作表：filename + _ + normalized_sheet_name -> tablename
+    """
     logging.info(f" 开始处理文件：{filename}")
 
     try:
@@ -193,22 +220,28 @@ def sync_single_excel_all_sheets(file_path: str, filename: str):
         base_table_name = filename_to_base_table_name(filename)
         success_count = 0
 
+        #遍历每个工作表
         for sheet_name in sheet_names:
             source_info = f"{filename}/{sheet_name}"
 
+            #读取工作表数据
             try:
                 df = pd.read_excel(file_path, sheet_name=sheet_name, engine='openpyxl')
             except Exception as e:
                 logging.error(f"❌ 读取工作表失败：{source_info} - {e}")
                 continue
 
+            #预处理数据
             df = preprocess_dataframe(df, source_info)
             if df is None or df.empty:
                 continue
 
+            #生成表名
             if len(sheet_names) == 1:
+                #单工作表：直接使用文件名作为表名
                 final_table_name = base_table_name
             else:
+                #多工作表：文件名_工作表名
                 normalize_sheet = normalize_sheet_name(sheet_name)
                 final_table_name = f"{base_table_name}_{normalize_sheet}"
 
@@ -222,6 +255,7 @@ def sync_single_excel_all_sheets(file_path: str, filename: str):
         return 0
 
 def batch_sync_all_excels():
+    """批量同步所有Excel文件及其所有工作表"""
     setup_logging()
     excel_files = get_excel_files()
     if not excel_files:
@@ -238,46 +272,5 @@ def batch_sync_all_excels():
         success_count = sync_single_excel_all_sheets(file_path, filename)
         total_success += success_count
 
-    logging.info(f"✅ 批量同步完成：{total_success} 个工作表")
+    logging.info(f"✅ 批量同步完成：共处理 {total_success} 个工作表")
         
-
-
-
-# def read_excel(file_path: str, sheet_name: str) -> pd.DataFrame | None:
-#     try:
-#         df = pd.read_excel(file_path, sheet_name=sheet_name)
-#         logging.info(f"✅ 读取成功 Excel: {file_path}, 共 {len(df)} 行")
-#         return df
-#     except Exception as e:
-#         logging.error(f"❌ 读取 Excel 失败: {e}")
-#         return None
-#
-# def connect_mysql():
-#     try:
-#         conn = pymysql.connect(**DB_CONFIG, cursorclass=cursors.DictCursor)
-#         logging.info("✅ 成功连接远程 MySQL数据库")
-#         return conn
-#     except Exception as e:
-#         logging.error(f"❌ 连接 MySQL 失败: {e}")
-#         return None
-#
-# def create_table_if_not_exist(conn, df: pd.DataFrame, table_name: str):
-#     type_mapping = {
-#         'int64' : 'bigint',
-#         'float64' : 'double',
-#         'datetime64[ns]' : 'datetime',
-#         'object' : 'text',
-#         'bool' : 'boolean'
-#     }
-#
-#     columns_def = []
-#     for col, dtype in df.dtypes.items():
-#         sql_type = type_mapping.get(str(dtype), 'TEXT')
-#         if sql_type == 'TEXT' and df[col].dtype == 'object':
-#             max_len = int(df[col].astype(str).len().max())
-#             if max_len > 255:
-#                 sql_type = f'VARCHAR({min(max_len + 10, 255)})'
-#         columns_def.append(f"'{col}', {sql_type}")
-#
-#     create_sql = f"CREATE TABLE IF NOT EXISTS '{table_name}' ({', '.join(columns_def)})"
-

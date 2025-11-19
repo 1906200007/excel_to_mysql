@@ -1,0 +1,197 @@
+2025-11-15 15:14:29,299 | root | WARNING | data/ 目录下没有找到 Excel 文件
+2025-11-15 15:22:43,829 | root | WARNING | data/ 目录下没有找到 Excel 文件
+2025-11-15 16:38:11,690 | root | INFO | 发现 1个 Excel 文件：['Nigeria.xlsx']
+2025-11-15 16:38:11,691 | root | INFO |  开始同步： E:\PycharmProjects\excel_to_mysql\data\Nigeria.xlsx → 表 'nigeria'
+2025-11-15 16:38:11,922 | root | ERROR | ❌ Excel 预处理失败: E:\PycharmProjects\excel_to_mysql\data\Nigeria.xlsx -> Worksheet named 'sheet1' not found
+2025-11-15 16:38:11,922 | root | WARNING |  跳过空文件： E:\PycharmProjects\excel_to_mysql\data\Nigeria.xlsx
+2025-11-15 16:38:11,922 | root | INFO | ✅ 批量同步完成：0/1 个文件成功
+2025-11-15 16:57:49,050 | root | INFO | 发现 1个 Excel 文件：['Nigeria.xlsx']
+2025-11-15 16:57:49,051 | root | INFO |  开始同步： E:\PycharmProjects\excel_to_mysql\data\Nigeria.xlsx → 表 'nigeria'
+2025-11-15 16:57:49,215 | root | ERROR | ❌ Excel 预处理失败: E:\PycharmProjects\excel_to_mysql\data\Nigeria.xlsx -> Worksheet named 'sheet1' not found
+2025-11-15 16:57:49,215 | root | WARNING |  跳过空文件： E:\PycharmProjects\excel_to_mysql\data\Nigeria.xlsx
+2025-11-15 16:57:49,215 | root | INFO | ✅ 批量同步完成：0/1 个文件成功
+2025-11-17 14:13:44,932 | root | INFO | 发现 1个 Excel 文件：['Nigeria.xlsx']
+2025-11-17 14:13:44,933 | root | INFO |  开始同步： E:\PycharmProjects\excel_to_mysql\data\Nigeria.xlsx → 表 'nigeria'
+2025-11-17 14:13:45,220 | root | ERROR | ❌ Excel 预处理失败: E:\PycharmProjects\excel_to_mysql\data\Nigeria.xlsx -> Worksheet named 'sheet1' not found
+2025-11-17 14:13:45,220 | root | WARNING |  跳过空文件： E:\PycharmProjects\excel_to_mysql\data\Nigeria.xlsx
+2025-11-17 14:13:45,220 | root | INFO | ✅ 批量同步完成：0/1 个文件成功
+2025-11-17 17:40:44,338 | root | INFO | 发现 1个 Excel 文件：['Nigeria.xlsx']
+2025-11-17 17:40:44,338 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-17 17:40:44,359 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-17 17:40:48,412 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-17 17:40:48,422 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204904 行, 6 列
+2025-11-17 17:40:48,448 | root | ERROR | ❌ MySQL 连接失败：'cryptography' package is required for sha256_password or caching_sha2_password auth methods
+2025-11-17 17:40:48,449 | root | INFO | ✅ 批量同步完成：0 个工作表
+2025-11-17 17:41:11,185 | root | INFO | 发现 1个 Excel 文件：['Nigeria.xlsx']
+2025-11-17 17:41:11,185 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-17 17:41:11,192 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-17 17:41:15,019 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-17 17:41:15,029 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204904 行, 6 列
+2025-11-17 17:41:15,034 | root | ERROR | ❌ MySQL 连接失败：'cryptography' package is required for sha256_password or caching_sha2_password auth methods
+2025-11-17 17:41:15,035 | root | INFO | ✅ 批量同步完成：0 个工作表
+2025-11-17 17:43:08,939 | root | INFO | 发现 1个 Excel 文件：['Nigeria.xlsx']
+2025-11-17 17:43:08,939 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-17 17:43:08,947 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-17 17:43:12,794 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-17 17:43:12,802 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204904 行, 6 列
+2025-11-17 17:43:12,825 | root | INFO | ✅ MySQL 连接成功
+2025-11-17 17:43:12,848 | root | ERROR | ❌ 同步失败：nigeria - (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''nigeria' ('id' INT AUTO_INCREMENT PRIMARY KEY, 'ProductID' BIGINT, 'Date' DATE,' at line 1")
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 156, in sync_dataframe_to_table
+    create_table_with_auto_increment(conn, df, table_name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 135, in create_table_with_auto_increment
+    cursor.execute(create_sql)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''nigeria' ('id' INT AUTO_INCREMENT PRIMARY KEY, 'ProductID' BIGINT, 'Date' DATE,' at line 1")
+2025-11-17 17:43:12,889 | root | INFO | ✅ 批量同步完成：0 个工作表
+2025-11-18 13:59:27,869 | root | INFO | 发现 1个 Excel 文件：['Nigeria.xlsx']
+2025-11-18 13:59:27,869 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-18 13:59:27,902 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-18 13:59:33,284 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-18 13:59:33,296 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204904 行, 6 列
+2025-11-18 13:59:33,305 | root | INFO | ✅ MySQL 连接成功
+2025-11-18 13:59:33,336 | root | ERROR | ❌ 同步失败：nigeria - (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''nigeria' ('id' INT AUTO_INCREMENT PRIMARY KEY, 'ProductID' BIGINT, 'Date' DATE,' at line 1")
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 156, in sync_dataframe_to_table
+    create_table_with_auto_increment(conn, df, table_name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 135, in create_table_with_auto_increment
+    cursor.execute(create_sql)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''nigeria' ('id' INT AUTO_INCREMENT PRIMARY KEY, 'ProductID' BIGINT, 'Date' DATE,' at line 1")
+2025-11-18 13:59:33,407 | root | INFO | ✅ 批量同步完成：0 个工作表
+2025-11-18 14:36:46,774 | root | INFO | 发现 2个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx']
+2025-11-18 14:36:46,774 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-18 14:36:46,782 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-18 14:36:50,258 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-18 14:36:50,267 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-18 14:36:50,273 | root | INFO | ✅ MySQL 连接成功
+2025-11-18 14:36:50,305 | root | ERROR | ❌ 处理文件失败：Germany.xlsx - (0, '')
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 789, in _read_bytes
+    data = self._rfile.read(num_bytes)
+  File "D:\Python\Lib\socket.py", line 719, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 156, in sync_dataframe_to_table
+    create_table_with_auto_increment(conn, df, table_name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 135, in create_table_with_auto_increment
+    cursor.execute(create_sql)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 751, in _read_packet
+    packet_header = self._read_bytes(4)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 795, in _read_bytes
+    raise err.OperationalError(
+    ...<2 lines>...
+    )
+pymysql.err.OperationalError: (2013, 'Lost connection to MySQL server during query ([WinError 10054] 远程主机强迫关闭了一个现有的连接。)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 218, in sync_single_excel_all_sheets
+    if sync_dataframe_to_table(df, final_table_name):
+       ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 178, in sync_dataframe_to_table
+    conn.rollback()
+    ~~~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 504, in rollback
+    self._execute_command(COMMAND.COM_QUERY, "ROLLBACK")
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 844, in _execute_command
+    raise err.InterfaceError(0, "")
+pymysql.err.InterfaceError: (0, '')
+2025-11-18 14:36:50,359 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-18 14:36:50,382 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-18 14:36:55,417 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-18 14:36:55,426 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204904 行, 6 列
+2025-11-18 14:36:57,459 | root | ERROR | ❌ MySQL 连接失败：(2003, "Can't connect to MySQL server on '172.17.202.147' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
+2025-11-18 14:36:57,460 | root | INFO | ✅ 批量同步完成：0 个工作表
+2025-11-18 14:38:05,592 | root | INFO | 发现 2个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx']
+2025-11-18 14:38:05,592 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-18 14:38:05,600 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-18 14:38:08,624 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-18 14:38:08,635 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-18 14:38:08,670 | root | INFO | ✅ MySQL 连接成功
+2025-11-18 14:38:08,711 | root | INFO | ✅ 表 `germany` 已创建（带自增主键）
+2025-11-18 14:38:09,042 | root | ERROR | ❌ 同步失败：`germany` - 'Connection' object has no attribute 'curosr'
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 167, in sync_dataframe_to_table
+    with conn.curosr() as cursor:
+         ^^^^^^^^^^^
+AttributeError: 'Connection' object has no attribute 'curosr'. Did you mean: 'cursor'?
+2025-11-18 14:38:09,056 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-18 14:38:09,063 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-18 14:38:14,153 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-18 14:38:14,163 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204904 行, 6 列
+2025-11-18 14:38:14,180 | root | INFO | ✅ MySQL 连接成功
+2025-11-18 14:38:14,241 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
+2025-11-18 14:38:14,706 | root | ERROR | ❌ 同步失败：`nigeria` - 'Connection' object has no attribute 'curosr'
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 167, in sync_dataframe_to_table
+    with conn.curosr() as cursor:
+         ^^^^^^^^^^^
+AttributeError: 'Connection' object has no attribute 'curosr'. Did you mean: 'cursor'?
+2025-11-18 14:38:14,733 | root | INFO | ✅ 批量同步完成：0 个工作表

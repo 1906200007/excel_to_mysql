@@ -1,5 +1,4 @@
 import logging
-
 import pandas as pd
 import pymysql
 import os
@@ -268,9 +267,10 @@ def batch_sync_all_excels():
     total_files = len(excel_files)
 
     for filename in excel_files:
+        filename = str(filename)
         file_path = os.path.join(DATA_DIR, filename)
         success_count = sync_single_excel_all_sheets(file_path, filename)
         total_success += success_count
 
-    logging.info(f"✅ 批量同步完成：共处理 {total_success} 个工作表")
+    logging.info(f"✅ 批量同步完成：共处理 {total_files} 个文件，成功同步{total_success} 个工作表")
         

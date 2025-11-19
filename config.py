@@ -1,6 +1,5 @@
 import os
 
-DATA_DIR = "data"
 EXCEL_FILE_EXTENSION = (".xlsx", ".xls")
 TARGET_DATABASE = "kayson_db"
 

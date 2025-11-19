@@ -1,7 +1,5 @@
-from config import SCHEDULE_TIME
+
 from excel_to_mysql import batch_sync_all_excels
-import schedule
-import time
 import logging
 
 def daily_batch_sync_job():

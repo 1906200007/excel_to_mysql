@@ -195,3 +195,324 @@ Traceback (most recent call last):
          ^^^^^^^^^^^
 AttributeError: 'Connection' object has no attribute 'curosr'. Did you mean: 'cursor'?
 2025-11-18 14:38:14,733 | root | INFO | ✅ 批量同步完成：0 个工作表
+2025-11-19 13:40:00,061 | root | INFO | 发现 2个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx']
+2025-11-19 13:40:00,061 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-19 13:40:00,402 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-19 13:40:03,988 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-19 13:40:04,001 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-19 13:40:04,025 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 13:40:07,463 | root | ERROR | ❌ 处理文件失败：Germany.xlsx - (0, '')
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 789, in _read_bytes
+    data = self._rfile.read(num_bytes)
+  File "D:\Python\Lib\socket.py", line 719, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 170, in sync_dataframe_to_table
+    create_table_with_auto_increment(conn, df, table_name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 147, in create_table_with_auto_increment
+    cursor.execute(create_sql)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 751, in _read_packet
+    packet_header = self._read_bytes(4)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 795, in _read_bytes
+    raise err.OperationalError(
+    ...<2 lines>...
+    )
+pymysql.err.OperationalError: (2013, 'Lost connection to MySQL server during query ([WinError 10054] 远程主机强迫关闭了一个现有的连接。)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 247, in sync_single_excel_all_sheets
+    if sync_dataframe_to_table(df, final_table_name):
+       ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 194, in sync_dataframe_to_table
+    conn.rollback()
+    ~~~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 504, in rollback
+    self._execute_command(COMMAND.COM_QUERY, "ROLLBACK")
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 844, in _execute_command
+    raise err.InterfaceError(0, "")
+pymysql.err.InterfaceError: (0, '')
+2025-11-19 13:40:07,551 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-19 13:40:07,625 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-19 13:40:13,008 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-19 13:40:13,021 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204904 行, 6 列
+2025-11-19 13:40:15,056 | root | ERROR | ❌ MySQL 连接失败：(2003, "Can't connect to MySQL server on '172.17.202.147' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
+2025-11-19 13:40:15,057 | root | INFO | ✅ 批量同步完成：共处理 2 个文件，成功同步0 个工作表
+2025-11-19 13:42:25,401 | root | INFO | 发现 2个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx']
+2025-11-19 13:42:25,401 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-19 13:42:25,588 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-19 13:42:29,031 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-19 13:42:29,041 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-19 13:42:29,091 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 13:42:29,133 | root | INFO | ✅ 表 `germany` 已创建（带自增主键）
+2025-11-19 13:42:31,941 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-19 13:42:31,958 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-19 13:42:31,965 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-19 13:42:37,256 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-19 13:42:37,266 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204904 行, 6 列
+2025-11-19 13:42:37,292 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 13:42:37,344 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
+2025-11-19 13:42:40,674 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204904 行
+2025-11-19 13:42:40,696 | root | INFO | ✅ 批量同步完成：共处理 2 个文件，成功同步2 个工作表
+2025-11-19 13:53:28,112 | root | INFO | 发现 2个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx']
+2025-11-19 13:53:28,113 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-19 13:53:28,295 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-19 13:53:31,648 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-19 13:53:31,655 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-19 13:53:31,662 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 13:53:31,688 | root | INFO | ✅ 表 `germany` 已创建（带自增主键）
+2025-11-19 13:53:34,358 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-19 13:53:34,391 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-19 13:53:34,399 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-19 13:53:39,884 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-19 13:53:39,894 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204905 行, 6 列
+2025-11-19 13:53:39,899 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 13:53:39,940 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
+2025-11-19 13:53:44,187 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-19 13:53:44,228 | root | INFO | ✅ 批量同步完成：共处理 2 个文件，成功同步2 个工作表
+2025-11-19 13:57:06,991 | root | INFO | 发现 2个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx']
+2025-11-19 13:57:06,991 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-19 13:57:07,176 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-19 13:57:10,429 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-19 13:57:10,436 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-19 13:57:10,443 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 13:57:10,472 | root | INFO | ✅ 表 `germany` 已创建（带自增主键）
+2025-11-19 13:57:13,000 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-19 13:57:13,020 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-19 13:57:13,027 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-19 13:57:17,780 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-19 13:57:17,789 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204905 行, 6 列
+2025-11-19 13:57:17,809 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 13:57:17,839 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
+2025-11-19 13:57:20,981 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-19 13:57:21,001 | root | INFO | ✅ 批量同步完成：共处理 2 个文件，成功同步2 个工作表
+2025-11-19 14:02:24,709 | root | INFO | 发现 2个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx']
+2025-11-19 14:02:24,709 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-19 14:02:24,863 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-19 14:02:28,122 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-19 14:02:28,132 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-19 14:02:28,139 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:02:28,171 | root | INFO | ✅ 表 `germany` 已创建（带自增主键）
+2025-11-19 14:02:31,009 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-19 14:02:31,029 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-19 14:02:31,038 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-19 14:02:36,565 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-19 14:02:36,574 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204906 行, 6 列
+2025-11-19 14:02:36,601 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:02:36,631 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
+2025-11-19 14:02:39,848 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204906 行
+2025-11-19 14:02:39,875 | root | INFO | ✅ 批量同步完成：共处理 2 个文件，成功同步2 个工作表
+2025-11-19 14:06:30,109 | root | INFO | 发现 3个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx', '~$Nigeria.xlsx']
+2025-11-19 14:06:30,109 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-19 14:06:30,272 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-19 14:06:33,523 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-19 14:06:33,530 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-19 14:06:33,536 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:06:33,561 | root | INFO | ✅ 表 `germany` 已创建（带自增主键）
+2025-11-19 14:06:36,186 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-19 14:06:36,206 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-19 14:06:36,213 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-19 14:06:42,244 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-19 14:06:42,261 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204905 行, 6 列
+2025-11-19 14:06:42,291 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:06:42,345 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
+2025-11-19 14:06:46,669 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-19 14:06:46,698 | root | INFO |  开始处理文件：~$Nigeria.xlsx
+2025-11-19 14:06:46,699 | root | ERROR | ❌ 处理文件失败：~$Nigeria.xlsx - [Errno 13] Permission denied: 'E:\\PycharmProjects\\excel_to_mysql\\data\\~$Nigeria.xlsx'
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 211, in sync_single_excel_all_sheets
+    excel_file = pd.ExcelFile(file_path, engine='openpyxl')
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 1567, in __init__
+    self._reader = self._engines[engine](
+                   ~~~~~~~~~~~~~~~~~~~~~^
+        self._io,
+        ^^^^^^^^^
+        storage_options=storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        engine_kwargs=engine_kwargs,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\excel\_openpyxl.py", line 553, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        filepath_or_buffer,
+        ^^^^^^^^^^^^^^^^^^^
+        storage_options=storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        engine_kwargs=engine_kwargs,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 563, in __init__
+    self.handles = get_handle(
+                   ~~~~~~~~~~^
+        filepath_or_buffer, "rb", storage_options=storage_options, is_text=False
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+PermissionError: [Errno 13] Permission denied: 'E:\\PycharmProjects\\excel_to_mysql\\data\\~$Nigeria.xlsx'
+2025-11-19 14:06:46,761 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步2 个工作表
+2025-11-19 14:08:03,800 | root | INFO | 发现 3个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx', '~$Nigeria.xlsx']
+2025-11-19 14:08:03,800 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-19 14:08:03,984 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-19 14:08:07,358 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-19 14:08:07,363 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-19 14:08:07,388 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:08:07,435 | root | INFO | ✅ 表 `germany` 已创建（带自增主键）
+2025-11-19 14:08:10,383 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-19 14:08:10,404 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-19 14:08:10,413 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-19 14:08:16,176 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-19 14:08:16,187 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204905 行, 6 列
+2025-11-19 14:08:16,191 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:08:16,253 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
+2025-11-19 14:08:19,800 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-19 14:08:19,823 | root | INFO |  开始处理文件：~$Nigeria.xlsx
+2025-11-19 14:08:19,824 | root | ERROR | ❌ 处理文件失败：~$Nigeria.xlsx - [Errno 13] Permission denied: 'E:\\PycharmProjects\\excel_to_mysql\\data\\~$Nigeria.xlsx'
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 211, in sync_single_excel_all_sheets
+    excel_file = pd.ExcelFile(file_path, engine='openpyxl')
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 1567, in __init__
+    self._reader = self._engines[engine](
+                   ~~~~~~~~~~~~~~~~~~~~~^
+        self._io,
+        ^^^^^^^^^
+        storage_options=storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        engine_kwargs=engine_kwargs,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\excel\_openpyxl.py", line 553, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        filepath_or_buffer,
+        ^^^^^^^^^^^^^^^^^^^
+        storage_options=storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        engine_kwargs=engine_kwargs,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 563, in __init__
+    self.handles = get_handle(
+                   ~~~~~~~~~~^
+        filepath_or_buffer, "rb", storage_options=storage_options, is_text=False
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+PermissionError: [Errno 13] Permission denied: 'E:\\PycharmProjects\\excel_to_mysql\\data\\~$Nigeria.xlsx'
+2025-11-19 14:08:19,826 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步2 个工作表
+2025-11-19 14:20:15,584 | root | INFO | 发现 3个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx', '~$Nigeria.xlsx']
+2025-11-19 14:20:15,584 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-19 14:20:15,774 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-19 14:20:19,020 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-19 14:20:19,030 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-19 14:20:19,063 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:20:19,130 | root | INFO | ✅ 表 `germany` 已创建（带自增主键）
+2025-11-19 14:20:22,014 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-19 14:20:22,031 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-19 14:20:22,043 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-19 14:20:28,048 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-19 14:20:28,064 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204905 行, 6 列
+2025-11-19 14:20:28,068 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:20:28,138 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
+2025-11-19 14:20:31,852 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-19 14:20:31,885 | root | INFO |  开始处理文件：~$Nigeria.xlsx
+2025-11-19 14:20:31,887 | root | ERROR | ❌ 处理文件失败：~$Nigeria.xlsx - [Errno 13] Permission denied: 'E:\\PycharmProjects\\excel_to_mysql\\data\\~$Nigeria.xlsx'
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 211, in sync_single_excel_all_sheets
+    excel_file = pd.ExcelFile(file_path, engine='openpyxl')
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 1567, in __init__
+    self._reader = self._engines[engine](
+                   ~~~~~~~~~~~~~~~~~~~~~^
+        self._io,
+        ^^^^^^^^^
+        storage_options=storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        engine_kwargs=engine_kwargs,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\excel\_openpyxl.py", line 553, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        filepath_or_buffer,
+        ^^^^^^^^^^^^^^^^^^^
+        storage_options=storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        engine_kwargs=engine_kwargs,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 563, in __init__
+    self.handles = get_handle(
+                   ~~~~~~~~~~^
+        filepath_or_buffer, "rb", storage_options=storage_options, is_text=False
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pandas\io\common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+PermissionError: [Errno 13] Permission denied: 'E:\\PycharmProjects\\excel_to_mysql\\data\\~$Nigeria.xlsx'
+2025-11-19 14:20:31,890 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步2 个工作表
+2025-11-19 14:23:25,804 | root | INFO | 发现 2个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx']
+2025-11-19 14:23:25,804 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-19 14:23:25,982 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-19 14:23:29,218 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-19 14:23:29,226 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-19 14:23:29,234 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:23:29,259 | root | INFO | ✅ 表 `germany` 已创建（带自增主键）
+2025-11-19 14:23:32,326 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-19 14:23:32,343 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-19 14:23:32,351 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-19 14:23:37,757 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-19 14:23:37,767 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204905 行, 6 列
+2025-11-19 14:23:37,771 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:23:37,804 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
+2025-11-19 14:23:42,646 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-19 14:23:42,676 | root | INFO | ✅ 批量同步完成：共处理 2 个文件，成功同步2 个工作表
+2025-11-19 14:25:16,809 | root | INFO | 发现 2个 Excel 文件：['Germany.xlsx', 'Nigeria.xlsx']
+2025-11-19 14:25:16,810 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-19 14:25:16,965 | root | INFO |  发现 1 个工作表：['Germany']
+2025-11-19 14:25:20,193 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-19 14:25:20,201 | root | INFO | ✅ Excel 预处理完成: Germany.xlsx/Germany -> 137619 行, 6 列
+2025-11-19 14:25:20,211 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:25:20,239 | root | INFO | ✅ 表 `germany` 已创建（带自增主键）
+2025-11-19 14:25:23,509 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-19 14:25:23,529 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-19 14:25:23,537 | root | INFO |  发现 1 个工作表：['Nigeria']
+2025-11-19 14:25:29,373 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-19 14:25:29,384 | root | INFO | ✅ Excel 预处理完成: Nigeria.xlsx/Nigeria -> 204904 行, 6 列
+2025-11-19 14:25:29,406 | root | INFO | ✅ MySQL 连接成功
+2025-11-19 14:25:29,451 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
+2025-11-19 14:25:34,053 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204904 行
+2025-11-19 14:25:34,074 | root | INFO | ✅ 批量同步完成：共处理 2 个文件，成功同步2 个工作表

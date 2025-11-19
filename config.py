@@ -22,7 +22,7 @@ DB_CONFIG = {
     "charset": "utf8mb4",
 }
 
-SYNC_MODE = "upsert"
+SYNC_MODE = "replace"
 LOG_FILE = "logs/sync.log"
 SCHEDULE_TIME = "10:00"
 

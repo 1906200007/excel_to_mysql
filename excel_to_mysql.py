@@ -3,10 +3,11 @@ import pandas as pd
 import pymysql
 import os
 import re
+from typing import List, Optional
 from pymysql import cursors
 from config import (
-    DB_CONFIG, SYNC_MODE, DATE_FORMAT, MONEY_COLUMNS,
-    DATA_DIR, EXCEL_FILE_EXTENSION, IGNORE_FIELDS
+    DB_CONFIG, DATE_FORMAT, MONEY_COLUMNS,
+    DATA_DIR, IGNORE_FILES, PRIMARY_KEY_COLUMN, ALL_SUPPORTED_EXTENSIONS
 )
 
 def setup_logging():
@@ -20,7 +21,7 @@ def setup_logging():
         ]
     )
 
-def get_excel_files():
+def get_supported_files() -> List[str]:
     """获取data目录下的Excel文件"""
     print(f" 查找Excel文件...")
     print(f" DATA_DIR: '{DATA_DIR}'")
@@ -35,13 +36,13 @@ def get_excel_files():
     all_files = os.listdir(DATA_DIR)
     print(f" data 目录中的所有文件：{all_files}")
 
-    excel_files = []
-    for file in all_files:
-        if file.lower().endswith(EXCEL_FILE_EXTENSION) and file not in IGNORE_FIELDS:
-            excel_files.append(file)
-
-    print(f" 找到 {len(excel_files)} 个 Excel 文件： {excel_files}")
-    return excel_files
+    supported_files = []
+    for file in os.listdir(DATA_DIR):
+        if file.startswith("~$"):
+            continue
+        if file.lower().endswith(ALL_SUPPORTED_EXTENSIONS) and file not in IGNORE_FILES:
+            supported_files.append(file)
+    return supported_files
 
 def normalize_sheet_name(sheet_name: str) -> str:
     """工作表名称规范为MySQL合法表名"""
@@ -67,7 +68,31 @@ def filename_to_base_table_name(filename: str) -> str:
         base_name = "table_" + base_name if base_name else "table"
     return base_name
 
-def preprocess_dataframe(df: pd.DataFrame, source_info: str) -> pd.DataFrame | None:
+def get_mysql_type(series: pd.Series, col_name: str) -> str:
+    #Key列强制为BIGINT主键
+    if col_name == PRIMARY_KEY_COLUMN:
+        return "BIGINT"
+
+    if pd.api.types.is_datetime64_any_dtype(series):
+        return "DATE"
+
+    if series.dtype == 'object':
+        max_len = series.astype(str).str.len().max()
+        if pd.isna(max_len) or max_len == 0:
+            max_len = 255
+        else:
+            max_len = min(int(max_len * 1.2), 10000)
+        return f"VARCHAR({max_len})"
+
+    if pd.api.types.is_integer_dtype(series) or str(series.dtype).startswith("Int"):
+        return "BIGINT"
+
+    if pd.api.types.is_float_dtype(series):
+        return "DECIMAL(9, 4)"
+
+    return "TEXT"
+
+def preprocess_dataframe(df: pd.DataFrame, source_info: str) -> Optional[pd.DataFrame]:
     """
     预处理可能出现的字段（日期、金额等）
     :param df:
@@ -76,6 +101,40 @@ def preprocess_dataframe(df: pd.DataFrame, source_info: str) -> pd.DataFrame | N
     """
     if df.empty:
         logging.warning(f" ！空工作表：{source_info}")
+        return None
+
+    #清理列名
+    df.columns = [str(col).strip() for col in df.columns]
+    df = df.loc[:, ~df.columns.duplicated()]
+
+    #检测主键列存在
+    if PRIMARY_KEY_COLUMN not in df.columns:
+        logging.error(f"❌ 缺少主键列 '{PRIMARY_KEY_COLUMN}': {source_info}")
+        return None
+
+    #移除全空行
+    df.dropna(how='all', inplace=True)
+    if df.empty:
+        logging.warning(f" ！移除空行后数据为空：{source_info}")
+        return None
+
+    #移除非主键列全为空的行
+    none_key_columns = [col for col in df.columns if col != PRIMARY_KEY_COLUMN]
+    if none_key_columns:
+        df = df.dropna(subset=none_key_columns, how='all')
+        if df.empty:
+            logging.warning(f" !所有数据行在非主键列均为空：{source_info}")
+            return None
+
+    try:
+        df[PRIMARY_KEY_COLUMN] = pd.to_numeric(df[PRIMARY_KEY_COLUMN], errors='coerce')
+        df = df.dropna(subset=[PRIMARY_KEY_COLUMN]) #再次移除转换失败的主键
+        if df.empty:
+            logging.error(f"❌ 主键列无法转化为数字：{source_info}")
+            return None
+
+    except Exception as e:
+        logging.error(f"❌ 主键列转换失败：{source_info} - {e}")
         return None
 
     #日期列自动识别
@@ -89,64 +148,53 @@ def preprocess_dataframe(df: pd.DataFrame, source_info: str) -> pd.DataFrame | N
             if parsed.notna().mean() > 0.5:
                 df[col] = pd.to_datetime(df[col], format=DATE_FORMAT, errors="coerce")
                 logging.info(f"日期列 '{col}' 已转换 ({source_info})")
-        except:
+        except Exception as e:
+            logging.debug(f"跳过日期解析 '{col}': {e}")
             continue
 
     # 金额列处理
     for col in MONEY_COLUMNS:
             if col in df.columns:
-                df[col] = pd.to_numeric(df[col], errors="coerce")
+                #清理逗号和货币符号
+                if df[col].dtype == 'object':
+                    cleaned = df[col].astype(str).str.replace(r'[,$€£¥₹%\s]', '', regex=True)
+                    df[col] = pd.to_numeric(cleaned, errors='coerce')
+                else:
+                    df[col] = pd.to_numeric(df[col], errors="coerce")
                 logging.info(f"金额列 '{col}' 已处理 ({source_info})")
 
-    #清理全空行
-    df = df.dropna(how='all')
-    logging.info(f"✅ Excel 预处理完成: {source_info} -> {len(df)} 行, {len(df.columns)} 列")
+    #纯整数的浮点列转回整数
+    for col in df.columns:
+        if col == PRIMARY_KEY_COLUMN:
+            continue
+        #检测是否所有非空值都为整数
+        if pd.api.types.is_float_dtype(df[col]):
+            non_na = df[col].dropna()
+            if not non_na.empty and (non_na % 1 == 0).all():
+                df[col] = df[col].astype('Int64')
+                logging.debug(f" 列 '{col}' 已从 float 转为整数 ({source_info})")
+
     return df
 
-def get_mysql_type(series: pd.Series, col_name: str) -> str:
-    """根据列类型返回MySQL类型"""
-    dtype = str(series.dtype)
-
-    if col_name in MONEY_COLUMNS:
-        return "DECIMAL(12,2)"
-
-    if dtype.startswith('datetime'):
-        return 'DATE'
-
-    elif dtype in ('int64', 'Int64'):
-        return 'BIGINT'
-    elif dtype == 'float64':
-        return 'DOUBLE'
-
-    elif dtype == 'bool':
-        return 'BOOLEAN'
-
-    elif dtype == 'object':
-        try:
-            max_len = int(series.astype(str).str.len().max())
-            if pd.isna(max_len):
-                max_len = 255
-            return f'VARCHAR({min(max_len + 50, 255)})' if max_len <= 200 else 'TEXT'
-        except:
-            return 'TEXT'
-
-    else:
-        return 'TEXT'
-
-def create_table_with_auto_increment(conn, df: pd.DataFrame, table_name: str):
+def create_table_with_key_as_pk(conn, df: pd.DataFrame, table_name: str):
     """创建自增主键的MySQL数据表"""
-    columns_def = ["`id` INT AUTO_INCREMENT PRIMARY KEY"]
+    columns_def = []
 
     for col in df.columns:
         mysql_type = get_mysql_type(df[col], col)
-        columns_def.append(f"`{col}` {mysql_type}")
+        col_def = f"`{col}` {mysql_type}"
+        if col == PRIMARY_KEY_COLUMN:
+            col_def += " PRIMARY KEY"
+        columns_def.append(col_def)
 
-    create_sql = f"CREATE TABLE IF NOT EXISTS `{table_name}` ({', '.join(columns_def)});"
+    create_sql = f"CREATE TABLE `{table_name}` ({', '.join(columns_def)}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
 
     with conn.cursor() as cursor:
+        cursor.execute(f"DROP TABLE IF EXISTS `{table_name}`")
         cursor.execute(create_sql)
+
     conn.commit()
-    logging.info(f"✅ 表 `{table_name}` 已创建（带自增主键）")
+    logging.info(f"✅ 表 `{table_name}` 已重建 (主键: {PRIMARY_KEY_COLUMN})")
 
 
 def connect_mysql():
@@ -159,17 +207,17 @@ def connect_mysql():
         return None
 
 
-def sync_dataframe_to_table(df: pd.DataFrame, table_name: str):
+def sync_dataframe_to_table(df: pd.DataFrame, table_name: str) -> bool:
     """文件数据同步到MySQL表"""
     conn = connect_mysql()
     if not conn or df is None or df.empty:
         return False
 
     try:
-        #创建自增主键表
-        create_table_with_auto_increment(conn, df, table_name)
+        # 每次重建表（全量覆盖，结构+数据）
+        create_table_with_key_as_pk(conn, df, table_name)
 
-        #准备数据，处理NaN
+        #准备 INSERT
         cols = [f"`{col}`" for col in df.columns]
         placeholders = ",".join(["%s"] * len(cols))
         sql = f"INSERT INTO `{table_name}` ({', '.join(cols)}) VALUES ({placeholders})"
@@ -181,9 +229,6 @@ def sync_dataframe_to_table(df: pd.DataFrame, table_name: str):
             data.append(tuple(clear_row))
 
         with conn.cursor() as cursor:
-            if SYNC_MODE == "replace":
-                cursor.execute(f"DELETE FROM `{table_name}`")
-
             cursor.executemany(sql, data)
 
         conn.commit()
@@ -197,7 +242,20 @@ def sync_dataframe_to_table(df: pd.DataFrame, table_name: str):
     finally:
         conn.close()
 
-def sync_single_excel_all_sheets(file_path: str, filename: str):
+def read_and_preprocess_csv(file_path: str, source_info: str) -> Optional[pd.DataFrame]:
+    """
+    读取并预处理 CSV 文件
+    :param file_path:
+    :param source_info:
+    :return:
+    """
+    try:
+        df = pd.read_csv(file_path, encoding='utf-8', on_bad_lines='skip', dtype=str, keep_default_na=False, na_values=[''])
+    except UnicodeDecodeError:
+        df = pd.read_csv(file_path, encoding='latin-1', on_bad_lines='skip', dtype=str, keep_default_na=False, na_values=[''])
+    return preprocess_dataframe(df, source_info)
+
+def sync_single_file_all_sheets(file_path: str, filename: str):
     """
     同步单个Excel文件中的所有工作表到独立的MySQL表
 
@@ -206,70 +264,75 @@ def sync_single_excel_all_sheets(file_path: str, filename: str):
     - 多工作表：filename + _ + normalized_sheet_name -> tablename
     """
     logging.info(f" 开始处理文件：{filename}")
+    base_table_name = filename_to_base_table_name(filename)
+    success_count = 0
 
     try:
-        excel_file = pd.ExcelFile(file_path, engine='openpyxl')
-        sheet_names = excel_file.sheet_names
-
-        if not sheet_names:
-            logging.warning(f" 文件无工作表：{filename}")
-            return 0
-
-        logging.info(f" 发现 {len(sheet_names)} 个工作表：{sheet_names}")
-        base_table_name = filename_to_base_table_name(filename)
-        success_count = 0
+        if filename.lower().endswith((".xls", ".xlsx")):
+            excel_file = pd.ExcelFile(file_path, engine='openpyxl')
+            sheet_names = excel_file.sheet_names
+            if not sheet_names:
+                logging.warning(f" !Excel 无工作表：{filename}")
+                return 0
 
         #遍历每个工作表
-        for sheet_name in sheet_names:
-            source_info = f"{filename}/{sheet_name}"
+            for sheet_name in sheet_names:
+                source_info = f"{filename}/{sheet_name}"
 
-            #读取工作表数据
-            try:
-                df = pd.read_excel(file_path, sheet_name=sheet_name, engine='openpyxl')
-            except Exception as e:
-                logging.error(f"❌ 读取工作表失败：{source_info} - {e}")
-                continue
+                #读取工作表数据
+                try:
+                    df = pd.read_excel(file_path, sheet_name=sheet_name, engine='openpyxl')
+                except Exception as e:
+                    logging.error(f"❌ 读取工作表失败：{source_info} - {e}")
+                    continue
 
             #预处理数据
-            df = preprocess_dataframe(df, source_info)
-            if df is None or df.empty:
-                continue
+                df = preprocess_dataframe(df, source_info)
+                if df is None or df.empty:
+                    continue
 
             #生成表名
-            if len(sheet_names) == 1:
-                #单工作表：直接使用文件名作为表名
-                final_table_name = base_table_name
+                if len(sheet_names) == 1:
+                    #单工作表：直接使用文件名作为表名
+                    final_table_name = base_table_name
+                else:
+                    #多工作表：文件名_工作表名
+                    normalize_sheet = normalize_sheet_name(sheet_name)
+                    final_table_name = f"{base_table_name}_{normalize_sheet}"
+
+                if sync_dataframe_to_table(df, final_table_name):
+                    success_count += 1
+        #处理 CSV 文件（单表）
+        elif filename.lower().endswith(".csv"):
+            source_info = filename
+            df = read_and_preprocess_csv(file_path, source_info)
+            if df is not None and not df.empty:
+                if sync_dataframe_to_table(df, base_table_name):
+                    success_count += 1
             else:
-                #多工作表：文件名_工作表名
-                normalize_sheet = normalize_sheet_name(sheet_name)
-                final_table_name = f"{base_table_name}_{normalize_sheet}"
-
-            if sync_dataframe_to_table(df, final_table_name):
-                success_count += 1
-
-        return success_count
+                logging.warning(f" ! CSV 文件为空或无效：{filename}")
 
     except Exception as e:
         logging.error(f"❌ 处理文件失败：{filename} - {e}", exc_info=True)
-        return 0
 
-def batch_sync_all_excels():
+    return success_count
+
+def batch_sync_all_files():
     """批量同步所有Excel文件及其所有工作表"""
     setup_logging()
-    excel_files = get_excel_files()
-    if not excel_files:
-        logging.warning("data/ 目录下没有找到 Excel 文件")
+    files = get_supported_files()
+    if not files:
+        logging.warning(" !data/ 目录下没有找到 .xlsx, .xls, .csv 文件")
         return
 
-    logging.info(f"发现 {len(excel_files)}个 Excel 文件：{excel_files}")
-
+    logging.info(f" 发现 {len(files)}个文件：{files}")
     total_success = 0
-    total_files = len(excel_files)
+    total_files = len(files)
 
-    for filename in excel_files:
+    for filename in files:
         filename = str(filename)
         file_path = os.path.join(DATA_DIR, filename)
-        success_count = sync_single_excel_all_sheets(file_path, filename)
+        success_count = sync_single_file_all_sheets(file_path, filename)
         total_success += success_count
 
     logging.info(f"✅ 批量同步完成：共处理 {total_files} 个文件，成功同步{total_success} 个工作表")

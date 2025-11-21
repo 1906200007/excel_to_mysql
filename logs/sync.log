@@ -516,3 +516,354 @@ PermissionError: [Errno 13] Permission denied: 'E:\\PycharmProjects\\excel_to_my
 2025-11-19 14:25:29,451 | root | INFO | ✅ 表 `nigeria` 已创建（带自增主键）
 2025-11-19 14:25:34,053 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204904 行
 2025-11-19 14:25:34,074 | root | INFO | ✅ 批量同步完成：共处理 2 个文件，成功同步2 个工作表
+2025-11-20 16:50:46,884 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-20 16:50:46,884 | root | INFO |  开始处理文件：Canada.csv
+2025-11-20 16:50:47,712 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-20 16:50:47,746 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-20 16:50:47,798 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 16:50:48,227 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-20 16:51:02,334 | root | INFO | ✅ 同步成功：表 `canada` ← 1048575 行
+2025-11-20 16:51:02,400 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-20 16:51:14,662 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-20 16:51:14,687 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 16:51:14,879 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-20 16:51:27,412 | root | INFO | ✅ 同步成功：表 `germany` ← 1048575 行
+2025-11-20 16:51:27,517 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-20 16:51:41,621 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-20 16:51:41,629 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 16:51:41,839 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-20 16:51:55,023 | root | INFO | ✅ 同步成功：表 `nigeria` ← 1048574 行
+2025-11-20 16:51:55,125 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-20 17:03:17,530 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-20 17:03:17,530 | root | INFO |  开始处理文件：Canada.csv
+2025-11-20 17:03:18,961 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-20 17:03:19,655 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-20 17:03:19,682 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:03:20,541 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-20 17:03:33,318 | root | INFO | ✅ 同步成功：表 `canada` ← 1048575 行
+2025-11-20 17:03:33,364 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-20 17:03:43,969 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-20 17:03:43,986 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:03:44,192 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-20 17:03:56,445 | root | INFO | ✅ 同步成功：表 `germany` ← 1048575 行
+2025-11-20 17:03:56,545 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-20 17:04:08,506 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-20 17:04:08,526 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:04:08,730 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-20 17:04:21,175 | root | INFO | ✅ 同步成功：表 `nigeria` ← 1048574 行
+2025-11-20 17:04:21,283 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-20 17:05:55,662 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-20 17:05:55,662 | root | INFO |  开始处理文件：Canada.csv
+2025-11-20 17:05:57,091 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-20 17:05:57,779 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-20 17:05:57,809 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:05:58,691 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-20 17:06:11,837 | root | INFO | ✅ 同步成功：表 `canada` ← 1048575 行
+2025-11-20 17:06:11,879 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-20 17:06:22,575 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-20 17:06:22,580 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:06:22,765 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-20 17:06:34,860 | root | INFO | ✅ 同步成功：表 `germany` ← 1048575 行
+2025-11-20 17:06:34,945 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-20 17:06:46,432 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-20 17:06:46,447 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:06:46,621 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-20 17:06:57,908 | root | INFO | ✅ 同步成功：表 `nigeria` ← 1048574 行
+2025-11-20 17:06:57,991 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-20 17:11:41,841 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-20 17:11:41,841 | root | INFO |  开始处理文件：Canada.csv
+2025-11-20 17:11:43,026 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-20 17:11:43,627 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-20 17:11:43,674 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:11:44,373 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-20 17:11:54,878 | root | INFO | ✅ 同步成功：表 `canada` ← 1048575 行
+2025-11-20 17:11:54,917 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-20 17:12:05,493 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-20 17:12:05,498 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:12:05,708 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-20 17:12:16,405 | root | INFO | ✅ 同步成功：表 `germany` ← 1048575 行
+2025-11-20 17:12:16,484 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-20 17:12:28,270 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-20 17:12:28,275 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:12:28,439 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-20 17:12:39,517 | root | INFO | ✅ 同步成功：表 `nigeria` ← 1048574 行
+2025-11-20 17:12:39,598 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-20 17:14:52,164 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-20 17:14:52,164 | root | INFO |  开始处理文件：Canada.csv
+2025-11-20 17:14:53,280 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-20 17:14:53,845 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-20 17:14:53,866 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:14:54,535 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-20 17:15:05,108 | root | INFO | ✅ 同步成功：表 `canada` ← 1048575 行
+2025-11-20 17:15:05,148 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-20 17:15:15,354 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-20 17:15:15,379 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:15:15,556 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-20 17:15:26,079 | root | INFO | ✅ 同步成功：表 `germany` ← 1048575 行
+2025-11-20 17:15:26,153 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-20 17:15:37,544 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-20 17:15:37,561 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:15:37,745 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-20 17:15:48,702 | root | INFO | ✅ 同步成功：表 `nigeria` ← 1048575 行
+2025-11-20 17:15:48,782 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-20 17:16:53,229 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-20 17:16:53,229 | root | INFO |  开始处理文件：Canada.csv
+2025-11-20 17:16:55,074 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-20 17:16:55,662 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-20 17:16:55,687 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:16:56,401 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-20 17:17:06,696 | root | INFO | ✅ 同步成功：表 `canada` ← 1048575 行
+2025-11-20 17:17:06,735 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-20 17:17:17,179 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-20 17:17:17,202 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:17:17,396 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-20 17:17:27,873 | root | INFO | ✅ 同步成功：表 `germany` ← 1048575 行
+2025-11-20 17:17:27,948 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-20 17:17:48,961 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-20 17:17:48,981 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:17:49,294 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-20 17:18:04,787 | root | INFO | ✅ 同步成功：表 `nigeria` ← 1048574 行
+2025-11-20 17:18:04,868 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-20 17:30:58,747 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-20 17:30:58,747 | root | INFO |  开始处理文件：Canada.csv
+2025-11-20 17:30:59,636 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-20 17:30:59,653 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-20 17:30:59,684 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:30:59,754 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-20 17:31:00,426 | root | INFO | ✅ 同步成功：表 `canada` ← 46104 行
+2025-11-20 17:31:00,430 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-20 17:31:10,560 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-20 17:31:10,576 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:31:10,615 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-20 17:31:12,600 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-20 17:31:12,623 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-20 17:31:24,030 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-20 17:31:24,035 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:31:24,078 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-20 17:31:27,007 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204904 行
+2025-11-20 17:31:27,041 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-20 17:36:05,911 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-20 17:36:05,912 | root | INFO |  开始处理文件：Canada.csv
+2025-11-20 17:36:06,853 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-20 17:36:06,872 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-20 17:36:06,892 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:36:06,948 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-20 17:36:07,670 | root | INFO | ✅ 同步成功：表 `canada` ← 46104 行
+2025-11-20 17:36:07,673 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-20 17:36:17,979 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-20 17:36:18,005 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:36:18,056 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-20 17:36:20,007 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-20 17:36:20,031 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-20 17:36:24,698 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-20 17:36:24,719 | root | INFO | ✅ MySQL 连接成功
+2025-11-20 17:36:24,771 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-20 17:36:27,695 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-20 17:36:27,717 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-21 14:19:53,123 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-21 14:19:53,123 | root | INFO |  开始处理文件：Canada.csv
+2025-11-21 14:19:54,245 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-21 14:19:54,266 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-21 14:19:54,310 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:19:54,376 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-21 14:19:54,604 | root | ERROR | ❌ 同步失败：`canada` - (1264, "Out of range value for column 'Revenue' at row 371")
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 232, in sync_dataframe_to_table
+    cursor.executemany(sql, data)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 182, in executemany
+    return self._do_execute_many(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        q_prefix,
+        ^^^^^^^^^
+    ...<4 lines>...
+        self._get_db().encoding,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 215, in _do_execute_many
+    rows += self.execute(sql + postfix)
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.DataError: (1264, "Out of range value for column 'Revenue' at row 371")
+2025-11-21 14:19:54,654 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-21 14:20:06,901 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-21 14:20:06,954 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:20:06,993 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-21 14:20:07,442 | root | ERROR | ❌ 同步失败：`germany` - (1264, "Out of range value for column 'Revenue' at row 1312")
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 232, in sync_dataframe_to_table
+    cursor.executemany(sql, data)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 182, in executemany
+    return self._do_execute_many(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        q_prefix,
+        ^^^^^^^^^
+    ...<4 lines>...
+        self._get_db().encoding,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 215, in _do_execute_many
+    rows += self.execute(sql + postfix)
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.DataError: (1264, "Out of range value for column 'Revenue' at row 1312")
+2025-11-21 14:20:07,462 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-21 14:20:12,868 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-21 14:20:12,922 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:20:12,969 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-21 14:20:13,556 | root | ERROR | ❌ 同步失败：`nigeria` - (1264, "Out of range value for column 'Revenue' at row 322")
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 232, in sync_dataframe_to_table
+    cursor.executemany(sql, data)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 182, in executemany
+    return self._do_execute_many(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        q_prefix,
+        ^^^^^^^^^
+    ...<4 lines>...
+        self._get_db().encoding,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 215, in _do_execute_many
+    rows += self.execute(sql + postfix)
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.DataError: (1264, "Out of range value for column 'Revenue' at row 322")
+2025-11-21 14:20:13,579 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步0 个工作表
+2025-11-21 14:24:38,787 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-21 14:24:38,787 | root | INFO |  开始处理文件：Canada.csv
+2025-11-21 14:24:39,923 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-21 14:24:39,950 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-21 14:24:39,976 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:24:40,029 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-21 14:24:40,968 | root | INFO | ✅ 同步成功：表 `canada` ← 46104 行
+2025-11-21 14:24:40,976 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-21 14:24:52,862 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-21 14:24:52,915 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:24:52,955 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-21 14:24:55,075 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-21 14:24:55,095 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-21 14:25:00,175 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-21 14:25:00,223 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:25:00,270 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-21 14:25:03,355 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-21 14:25:03,377 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-21 14:26:58,126 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-21 14:26:58,126 | root | INFO |  开始处理文件：Canada.csv
+2025-11-21 14:26:59,166 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-21 14:26:59,187 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-21 14:26:59,209 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:26:59,255 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-21 14:27:00,129 | root | INFO | ✅ 同步成功：表 `canada` ← 46104 行
+2025-11-21 14:27:00,137 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-21 14:27:11,686 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-21 14:27:11,739 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:27:11,779 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-21 14:27:13,915 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-21 14:27:13,936 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-21 14:27:19,109 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-21 14:27:19,181 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:27:19,230 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-21 14:27:22,327 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-21 14:27:22,348 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-21 14:44:16,509 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-21 14:44:16,509 | root | INFO |  开始处理文件：Canada.csv
+2025-11-21 14:44:16,595 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-21 14:44:16,618 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-21 14:44:16,639 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:44:16,708 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-21 14:44:17,537 | root | INFO | ✅ 同步成功：表 `canada` ← 46105 行
+2025-11-21 14:44:17,541 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-21 14:44:29,329 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-21 14:44:29,388 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:44:29,443 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-21 14:44:31,523 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-21 14:44:31,542 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-21 14:44:36,567 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-21 14:44:36,627 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:44:36,691 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-21 14:44:39,729 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204906 行
+2025-11-21 14:44:39,752 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-21 14:46:49,967 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-21 14:46:49,967 | root | INFO |  开始处理文件：Canada.csv
+2025-11-21 14:46:50,054 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-21 14:46:50,076 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-21 14:46:50,100 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:46:50,159 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-21 14:46:50,996 | root | INFO | ✅ 同步成功：表 `canada` ← 46102 行
+2025-11-21 14:46:51,001 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-21 14:47:03,909 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-21 14:47:03,970 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:47:04,016 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-21 14:47:06,210 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-21 14:47:06,228 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-21 14:47:11,619 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-21 14:47:11,681 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 14:47:11,745 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-21 14:47:14,932 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-21 14:47:14,957 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表

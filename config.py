@@ -1,10 +1,13 @@
 import os
 
 EXCEL_FILE_EXTENSION = (".xlsx", ".xls")
+CSV_EXTENSION = (".csv",)
+ALL_SUPPORTED_EXTENSIONS = EXCEL_FILE_EXTENSION + CSV_EXTENSION
 TARGET_DATABASE = "kayson_db"
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
+LOG_FILE = os.path.join(PROJECT_ROOT, "sync.log")
 
 if __name__ == "__main__":
     print(f"项目根目录: {PROJECT_ROOT}")
@@ -22,14 +25,15 @@ DB_CONFIG = {
     "charset": "utf8mb4",
 }
 
+PRIMARY_KEY_COLUMN = "Key"
+
 SYNC_MODE = "replace"
 LOG_FILE = "logs/sync.log"
+#同步时间
 SCHEDULE_TIME = "10:00"
 
 DATE_FORMAT = "%Y/%m/%d"
 
 MONEY_COLUMNS = ["Revenue", "Price", "Amount", "Cost",  "Salary", "Total", "Value"]
-
-# SHEET_NAME = "sheet1"
-IGNORE_FIELDS = ["template.xlsx", "backup.xlsx"]
+IGNORE_FILES = ["template.xlsx", "backup.xlsx"]
 

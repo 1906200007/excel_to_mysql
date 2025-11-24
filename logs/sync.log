@@ -867,3 +867,295 @@ pymysql.err.DataError: (1264, "Out of range value for column 'Revenue' at row 32
 2025-11-21 14:47:11,745 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
 2025-11-21 14:47:14,932 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
 2025-11-21 14:47:14,957 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-21 15:11:14,281 | root | INFO |  发现 3个文件：['Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-21 15:11:14,281 | root | INFO |  开始处理文件：Canada.csv
+2025-11-21 15:11:14,405 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-21 15:11:14,427 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-21 15:11:14,475 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:11:14,527 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-21 15:11:15,512 | root | INFO | ✅ 同步成功：表 `canada` ← 46102 行
+2025-11-21 15:11:15,517 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-21 15:11:28,026 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-21 15:11:28,063 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:11:28,098 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-21 15:11:30,403 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-21 15:11:30,425 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-21 15:11:36,055 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-21 15:11:36,110 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:11:36,170 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-21 15:11:39,521 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-21 15:11:39,542 | root | INFO | ✅ 批量同步完成：共处理 3 个文件，成功同步3 个工作表
+2025-11-21 15:21:24,393 | root | INFO |  发现 4个文件：['2025年销售明细1121.xlsx', 'Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-21 15:21:24,393 | root | INFO |  开始处理文件：2025年销售明细1121.xlsx
+2025-11-21 15:21:24,685 | root | INFO | 日期列 '日期' 已转换 (2025年销售明细1121.xlsx/Sheet1)
+2025-11-21 15:21:24,722 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:21:24,759 | root | INFO | ✅ 表 `table_2025_1121` 已重建 (主键: Key)
+2025-11-21 15:21:24,816 | root | ERROR | ❌ 同步失败：`table_2025_1121` - (1264, "Out of range value for column '价税合计' at row 38")
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 232, in sync_dataframe_to_table
+    cursor.executemany(sql, data)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 182, in executemany
+    return self._do_execute_many(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        q_prefix,
+        ^^^^^^^^^
+    ...<4 lines>...
+        self._get_db().encoding,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 220, in _do_execute_many
+    rows += self.execute(sql + postfix)
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.DataError: (1264, "Out of range value for column '价税合计' at row 38")
+2025-11-21 15:21:24,919 | root | INFO |  开始处理文件：Canada.csv
+2025-11-21 15:21:25,006 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-21 15:21:25,031 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-21 15:21:25,048 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:21:25,117 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-21 15:21:26,082 | root | INFO | ✅ 同步成功：表 `canada` ← 46102 行
+2025-11-21 15:21:26,092 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-21 15:21:39,671 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-21 15:21:39,726 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:21:39,781 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-21 15:21:42,087 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-21 15:21:42,110 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-21 15:21:47,314 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-21 15:21:47,380 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:21:47,437 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-21 15:21:50,757 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-21 15:21:50,781 | root | INFO | ✅ 批量同步完成：共处理 4 个文件，成功同步3 个工作表
+2025-11-21 15:23:19,586 | root | INFO |  发现 4个文件：['2025年销售明细1121.xlsx', 'Canada.csv', 'Germany.xlsx', 'Nigeria.xlsx']
+2025-11-21 15:23:19,586 | root | INFO |  开始处理文件：2025年销售明细1121.xlsx
+2025-11-21 15:23:19,864 | root | INFO | 日期列 '日期' 已转换 (2025年销售明细1121.xlsx/Sheet1)
+2025-11-21 15:23:19,885 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:23:19,944 | root | INFO | ✅ 表 `table_2025_1121` 已重建 (主键: Key)
+2025-11-21 15:23:20,051 | root | INFO | ✅ 同步成功：表 `table_2025_1121` ← 1658 行
+2025-11-21 15:23:20,052 | root | INFO |  开始处理文件：Canada.csv
+2025-11-21 15:23:20,147 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-21 15:23:20,180 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-21 15:23:20,197 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:23:20,258 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-21 15:23:21,188 | root | INFO | ✅ 同步成功：表 `canada` ← 46102 行
+2025-11-21 15:23:21,194 | root | INFO |  开始处理文件：Germany.xlsx
+2025-11-21 15:23:33,579 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-21 15:23:33,634 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:23:33,685 | root | INFO | ✅ 表 `germany` 已重建 (主键: Key)
+2025-11-21 15:23:35,936 | root | INFO | ✅ 同步成功：表 `germany` ← 137619 行
+2025-11-21 15:23:35,965 | root | INFO |  开始处理文件：Nigeria.xlsx
+2025-11-21 15:23:41,257 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-21 15:23:41,323 | root | INFO | ✅ MySQL 连接成功
+2025-11-21 15:23:41,386 | root | INFO | ✅ 表 `nigeria` 已重建 (主键: Key)
+2025-11-21 15:23:44,822 | root | INFO | ✅ 同步成功：表 `nigeria` ← 204905 行
+2025-11-21 15:23:44,848 | root | INFO | ✅ 批量同步完成：共处理 4 个文件，成功同步4 个工作表
+2025-11-24 17:00:32,521 | root | INFO | 开始多目录同步任务...
+2025-11-24 17:00:32,522 | root | INFO |  处理目录: data → 数据库: kayson_db (1) 个文件）
+2025-11-24 17:00:32,522 | root | INFO |  开始处理文件：2025年销售明细1121.xlsx → 数据库: kayson_db
+2025-11-24 17:00:32,935 | root | INFO | 日期列 '日期' 已转换 (2025年销售明细1121.xlsx/Sheet1)
+2025-11-24 17:00:32,942 | root | ERROR | ❌ 处理文件失败：2025年销售明细1121.xlsx - connect_mysql() missing 1 required positional argument: 'database'
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 280, in sync_single_file_all_sheets
+    if sync_dataframe_to_table(df, final_name, target_database):
+       ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 197, in sync_dataframe_to_table
+    conn = connect_mysql()
+TypeError: connect_mysql() missing 1 required positional argument: 'database'
+2025-11-24 17:00:32,944 | root | INFO |  目录 data 完成：同步 0 张表
+2025-11-24 17:00:32,945 | root | INFO |  处理目录: data1 → 数据库: kayson_db1 (1) 个文件）
+2025-11-24 17:00:32,945 | root | INFO |  开始处理文件：Nigeria.xlsx → 数据库: kayson_db1
+2025-11-24 17:00:39,594 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-24 17:00:39,666 | root | ERROR | ❌ 处理文件失败：Nigeria.xlsx - connect_mysql() missing 1 required positional argument: 'database'
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 280, in sync_single_file_all_sheets
+    if sync_dataframe_to_table(df, final_name, target_database):
+       ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 197, in sync_dataframe_to_table
+    conn = connect_mysql()
+TypeError: connect_mysql() missing 1 required positional argument: 'database'
+2025-11-24 17:00:39,668 | root | INFO |  目录 data1 完成：同步 0 张表
+2025-11-24 17:00:39,668 | root | INFO |  处理目录: data2 → 数据库: kayson_db2 (1) 个文件）
+2025-11-24 17:00:39,668 | root | INFO |  开始处理文件：Germany.xlsx → 数据库: kayson_db2
+2025-11-24 17:00:53,432 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-24 17:00:53,473 | root | ERROR | ❌ 处理文件失败：Germany.xlsx - connect_mysql() missing 1 required positional argument: 'database'
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 280, in sync_single_file_all_sheets
+    if sync_dataframe_to_table(df, final_name, target_database):
+       ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 197, in sync_dataframe_to_table
+    conn = connect_mysql()
+TypeError: connect_mysql() missing 1 required positional argument: 'database'
+2025-11-24 17:00:53,474 | root | INFO |  目录 data2 完成：同步 0 张表
+2025-11-24 17:00:53,475 | root | INFO |  目录 data3 下无待处理文件
+2025-11-24 17:00:53,475 | root | INFO |  目录 data4 下无待处理文件
+2025-11-24 17:00:53,475 | root | INFO |  目录 data5 下无待处理文件
+2025-11-24 17:00:53,475 | root | INFO |  目录 data6 下无待处理文件
+2025-11-24 17:00:53,475 | root | INFO |  处理目录: data7 → 数据库: kayson_db7 (1) 个文件）
+2025-11-24 17:00:53,475 | root | INFO |  开始处理文件：Canada.csv → 数据库: kayson_db7
+2025-11-24 17:00:53,543 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-24 17:00:53,568 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-24 17:00:53,570 | root | ERROR | ❌ 处理文件失败：Canada.csv - connect_mysql() missing 1 required positional argument: 'database'
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 287, in sync_single_file_all_sheets
+    if sync_dataframe_to_table(df, base_table_name, target_database):
+       ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 197, in sync_dataframe_to_table
+    conn = connect_mysql()
+TypeError: connect_mysql() missing 1 required positional argument: 'database'
+2025-11-24 17:00:53,570 | root | INFO |  目录 data7 完成：同步 0 张表
+2025-11-24 17:00:53,571 | root | INFO |  全部完成！共处理 4 个文件，同步 0 张表到对应数据库
+2025-11-24 17:16:54,006 | root | INFO | 开始多目录同步任务...
+2025-11-24 17:16:54,006 | root | INFO |  处理目录: data → 数据库: kayson_db (1) 个文件）
+2025-11-24 17:16:54,006 | root | INFO |  开始处理文件：2025年销售明细1121.xlsx → 数据库: kayson_db
+2025-11-24 17:16:54,301 | root | INFO | 日期列 '日期' 已转换 (2025年销售明细1121.xlsx/Sheet1)
+2025-11-24 17:16:54,348 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:16:54,380 | root | INFO | ✅ 表 `table_2025_1121_sheet1` 已重建 (主键: Key)
+2025-11-24 17:16:54,499 | root | INFO | ✅ 同步成功：表 `table_2025_1121_sheet1` ← 1658 行
+2025-11-24 17:16:54,500 | root | INFO |  目录 data 完成：同步 1 张表
+2025-11-24 17:16:54,500 | root | INFO |  处理目录: data1 → 数据库: kayson_db1 (1) 个文件）
+2025-11-24 17:16:54,500 | root | INFO |  开始处理文件：Nigeria.xlsx → 数据库: kayson_db1
+2025-11-24 17:17:00,451 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-24 17:17:00,519 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:17:00,564 | root | INFO | ✅ 表 `nigeria_nigeria` 已重建 (主键: Key)
+2025-11-24 17:17:04,014 | root | INFO | ✅ 同步成功：表 `nigeria_nigeria` ← 204905 行
+2025-11-24 17:17:04,037 | root | INFO |  目录 data1 完成：同步 1 张表
+2025-11-24 17:17:04,038 | root | INFO |  处理目录: data2 → 数据库: kayson_db2 (1) 个文件）
+2025-11-24 17:17:04,038 | root | INFO |  开始处理文件：Germany.xlsx → 数据库: kayson_db2
+2025-11-24 17:17:14,792 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-24 17:17:14,832 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:17:14,879 | root | INFO | ✅ 表 `germany_germany` 已重建 (主键: Key)
+2025-11-24 17:17:16,960 | root | INFO | ✅ 同步成功：表 `germany_germany` ← 137619 行
+2025-11-24 17:17:16,978 | root | INFO |  目录 data2 完成：同步 1 张表
+2025-11-24 17:17:16,978 | root | INFO |  目录 data3 下无待处理文件
+2025-11-24 17:17:16,978 | root | INFO |  目录 data4 下无待处理文件
+2025-11-24 17:17:16,978 | root | INFO |  目录 data5 下无待处理文件
+2025-11-24 17:17:16,978 | root | INFO |  目录 data6 下无待处理文件
+2025-11-24 17:17:16,978 | root | INFO |  处理目录: data7 → 数据库: kayson_db7 (1) 个文件）
+2025-11-24 17:17:16,978 | root | INFO |  开始处理文件：Canada.csv → 数据库: kayson_db7
+2025-11-24 17:17:17,043 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-24 17:17:17,061 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-24 17:17:17,084 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:17:17,121 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-24 17:17:17,817 | root | INFO | ✅ 同步成功：表 `canada` ← 46102 行
+2025-11-24 17:17:17,821 | root | INFO |  目录 data7 完成：同步 1 张表
+2025-11-24 17:17:17,822 | root | INFO |  全部完成！共处理 4 个文件，同步 4 张表到对应数据库
+2025-11-24 17:22:49,419 | root | INFO | 开始多目录同步任务...
+2025-11-24 17:22:49,419 | root | INFO |  处理目录: data → 数据库: kayson_db (1) 个文件）
+2025-11-24 17:22:49,419 | root | INFO |  开始处理文件：2025年销售明细1121.xlsx → 数据库: kayson_db
+2025-11-24 17:22:49,680 | root | INFO | 日期列 '日期' 已转换 (2025年销售明细1121.xlsx/Sheet1)
+2025-11-24 17:22:49,701 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:22:49,748 | root | INFO | ✅ 表 `table_2025_1121_sheet1` 已重建 (主键: Key)
+2025-11-24 17:22:49,866 | root | INFO | ✅ 同步成功：表 `table_2025_1121_sheet1` ← 1659 行
+2025-11-24 17:22:49,867 | root | INFO |  目录 data 完成：同步 1 张表
+2025-11-24 17:22:49,867 | root | INFO |  处理目录: data1 → 数据库: kayson_db1 (1) 个文件）
+2025-11-24 17:22:49,867 | root | INFO |  开始处理文件：Nigeria.xlsx → 数据库: kayson_db1
+2025-11-24 17:22:56,762 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-24 17:22:56,824 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:22:56,894 | root | INFO | ✅ 表 `nigeria_nigeria` 已重建 (主键: Key)
+2025-11-24 17:23:00,849 | root | INFO | ✅ 同步成功：表 `nigeria_nigeria` ← 204905 行
+2025-11-24 17:23:00,875 | root | INFO |  目录 data1 完成：同步 1 张表
+2025-11-24 17:23:00,875 | root | INFO |  处理目录: data2 → 数据库: kayson_db2 (1) 个文件）
+2025-11-24 17:23:00,875 | root | INFO |  开始处理文件：Germany.xlsx → 数据库: kayson_db2
+2025-11-24 17:23:13,418 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-24 17:23:13,465 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:23:13,513 | root | INFO | ✅ 表 `germany_germany` 已重建 (主键: Key)
+2025-11-24 17:23:15,651 | root | INFO | ✅ 同步成功：表 `germany_germany` ← 137619 行
+2025-11-24 17:23:15,669 | root | INFO |  目录 data2 完成：同步 1 张表
+2025-11-24 17:23:15,669 | root | INFO |  目录 data3 下无待处理文件
+2025-11-24 17:23:15,669 | root | INFO |  目录 data4 下无待处理文件
+2025-11-24 17:23:15,670 | root | INFO |  目录 data5 下无待处理文件
+2025-11-24 17:23:15,670 | root | INFO |  目录 data6 下无待处理文件
+2025-11-24 17:23:15,670 | root | INFO |  处理目录: data7 → 数据库: kayson_db7 (1) 个文件）
+2025-11-24 17:23:15,670 | root | INFO |  开始处理文件：Canada.csv → 数据库: kayson_db7
+2025-11-24 17:23:15,738 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-24 17:23:15,758 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-24 17:23:15,773 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:23:15,826 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-24 17:23:16,535 | root | INFO | ✅ 同步成功：表 `canada` ← 46102 行
+2025-11-24 17:23:16,539 | root | INFO |  目录 data7 完成：同步 1 张表
+2025-11-24 17:23:16,539 | root | INFO |  全部完成！共处理 4 个文件，同步 4 张表到对应数据库
+2025-11-24 17:27:11,791 | root | INFO | 开始多目录同步任务...
+2025-11-24 17:27:11,791 | root | INFO |  处理目录: data → 数据库: kayson_db (1) 个文件）
+2025-11-24 17:27:11,791 | root | INFO |  开始处理文件：2025年销售明细1121.xlsx → 数据库: kayson_db
+2025-11-24 17:27:12,458 | root | INFO | 日期列 '日期' 已转换 (2025年销售明细1121.xlsx/Sheet1)
+2025-11-24 17:27:12,493 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:27:12,536 | root | INFO | ✅ 表 `table_2025_1121_sheet1` 已重建 (主键: Key)
+2025-11-24 17:27:12,645 | root | INFO | ✅ 同步成功：表 `table_2025_1121_sheet1` ← 1658 行
+2025-11-24 17:27:12,645 | root | INFO |  目录 data 完成：同步 1 张表
+2025-11-24 17:27:12,646 | root | INFO |  处理目录: data1 → 数据库: kayson_db1 (1) 个文件）
+2025-11-24 17:27:12,646 | root | INFO |  开始处理文件：Nigeria.xlsx → 数据库: kayson_db1
+2025-11-24 17:27:18,678 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-24 17:27:18,760 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:27:18,829 | root | INFO | ✅ 表 `nigeria_nigeria` 已重建 (主键: Key)
+2025-11-24 17:27:22,230 | root | INFO | ✅ 同步成功：表 `nigeria_nigeria` ← 204905 行
+2025-11-24 17:27:22,252 | root | INFO |  目录 data1 完成：同步 1 张表
+2025-11-24 17:27:22,253 | root | INFO |  处理目录: data2 → 数据库: kayson_db2 (1) 个文件）
+2025-11-24 17:27:22,253 | root | INFO |  开始处理文件：Germany.xlsx → 数据库: kayson_db2
+2025-11-24 17:27:33,591 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-24 17:27:33,651 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:27:33,709 | root | INFO | ✅ 表 `germany_germany` 已重建 (主键: Key)
+2025-11-24 17:27:35,781 | root | INFO | ✅ 同步成功：表 `germany_germany` ← 137619 行
+2025-11-24 17:27:35,798 | root | INFO |  目录 data2 完成：同步 1 张表
+2025-11-24 17:27:35,799 | root | INFO |  目录 data3 下无待处理文件
+2025-11-24 17:27:35,799 | root | INFO |  目录 data4 下无待处理文件
+2025-11-24 17:27:35,799 | root | INFO |  目录 data5 下无待处理文件
+2025-11-24 17:27:35,799 | root | INFO |  目录 data6 下无待处理文件
+2025-11-24 17:27:35,799 | root | INFO |  处理目录: data7 → 数据库: kayson_db7 (1) 个文件）
+2025-11-24 17:27:35,799 | root | INFO |  开始处理文件：Canada.csv → 数据库: kayson_db7
+2025-11-24 17:27:35,862 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-24 17:27:35,880 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-24 17:27:35,903 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:27:35,974 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-24 17:27:36,693 | root | INFO | ✅ 同步成功：表 `canada` ← 46102 行
+2025-11-24 17:27:36,697 | root | INFO |  目录 data7 完成：同步 1 张表
+2025-11-24 17:27:36,697 | root | INFO |  全部完成！共处理 4 个文件，同步 4 张表到对应数据库
+2025-11-24 17:32:45,499 | root | INFO | 开始多目录同步任务...
+2025-11-24 17:32:45,499 | root | INFO |  目录 data 下无待处理文件
+2025-11-24 17:32:45,500 | root | INFO |  处理目录: data1 → 数据库: kayson_db1 (1) 个文件）
+2025-11-24 17:32:45,500 | root | INFO |  开始处理文件：Nigeria.xlsx → 数据库: kayson_db1
+2025-11-24 17:32:51,749 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-11-24 17:32:51,835 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:32:51,924 | root | INFO | ✅ 表 `nigeria_nigeria` 已重建 (主键: Key)
+2025-11-24 17:32:55,392 | root | INFO | ✅ 同步成功：表 `nigeria_nigeria` ← 204905 行
+2025-11-24 17:32:55,414 | root | INFO |  目录 data1 完成：同步 1 张表
+2025-11-24 17:32:55,414 | root | INFO |  处理目录: data2 → 数据库: kayson_db2 (1) 个文件）
+2025-11-24 17:32:55,414 | root | INFO |  开始处理文件：Germany.xlsx → 数据库: kayson_db2
+2025-11-24 17:33:06,634 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-11-24 17:33:06,699 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:33:06,757 | root | INFO | ✅ 表 `germany_germany` 已重建 (主键: Key)
+2025-11-24 17:33:08,816 | root | INFO | ✅ 同步成功：表 `germany_germany` ← 137619 行
+2025-11-24 17:33:08,836 | root | INFO |  目录 data2 完成：同步 1 张表
+2025-11-24 17:33:08,836 | root | INFO |  目录 data3 下无待处理文件
+2025-11-24 17:33:08,836 | root | INFO |  目录 data4 下无待处理文件
+2025-11-24 17:33:08,836 | root | INFO |  目录 data5 下无待处理文件
+2025-11-24 17:33:08,836 | root | INFO |  目录 data6 下无待处理文件
+2025-11-24 17:33:08,836 | root | INFO |  处理目录: data7 → 数据库: kayson_db7 (1) 个文件）
+2025-11-24 17:33:08,836 | root | INFO |  开始处理文件：Canada.csv → 数据库: kayson_db7
+2025-11-24 17:33:08,907 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-11-24 17:33:08,927 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-11-24 17:33:08,950 | root | INFO | ✅ MySQL 连接数据库 {database} 成功
+2025-11-24 17:33:09,008 | root | INFO | ✅ 表 `canada` 已重建 (主键: Key)
+2025-11-24 17:33:09,734 | root | INFO | ✅ 同步成功：表 `canada` ← 46102 行
+2025-11-24 17:33:09,738 | root | INFO |  目录 data7 完成：同步 1 张表
+2025-11-24 17:33:09,738 | root | INFO |  全部完成！共处理 3 个文件，同步 3 张表到对应数据库

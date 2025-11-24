@@ -3,46 +3,28 @@ import pandas as pd
 import pymysql
 import os
 import re
-from typing import List, Optional
+from typing import Optional
 from pymysql import cursors
 from config import (
     DB_CONFIG, DATE_FORMAT, MONEY_COLUMNS,
-    DATA_DIR, IGNORE_FILES, PRIMARY_KEY_COLUMN, ALL_SUPPORTED_EXTENSIONS
+    IGNORE_FILES, PRIMARY_KEY_COLUMN, ALL_SUPPORTED_EXTENSIONS,
+    DATA_DIR_TO_DATABASE, PROJECT_ROOT
+
 )
 
 def setup_logging():
-    os.makedirs("logs", exist_ok=True)
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
-        handlers=[
-            logging.FileHandler("logs/sync.log", encoding="utf-8"),
-            logging.StreamHandler()
-        ]
-    )
-
-def get_supported_files() -> List[str]:
-    """获取data目录下的Excel文件"""
-    print(f" 查找Excel文件...")
-    print(f" DATA_DIR: '{DATA_DIR}'")
-    print(f" 绝地路径 = '{os.path.abspath(DATA_DIR)}'")
-
-    if not os.path.exists(DATA_DIR):
-        print(f" ERROR：data目录不存在！")
-        print(f" 当前工作目录：{os.getcwd()}")
-        print(f" 确保data文件夹在位置：{os.path.abspath(DATA_DIR)}")
-        return []
-
-    all_files = os.listdir(DATA_DIR)
-    print(f" data 目录中的所有文件：{all_files}")
-
-    supported_files = []
-    for file in os.listdir(DATA_DIR):
-        if file.startswith("~$"):
-            continue
-        if file.lower().endswith(ALL_SUPPORTED_EXTENSIONS) and file not in IGNORE_FILES:
-            supported_files.append(file)
-    return supported_files
+    log_dir = os.path.join(PROJECT_ROOT, "logs")
+    os.makedirs(log_dir, exist_ok=True)
+    log_path = os.path.join(log_dir, "sync.log")
+    if not logging.getLogger().handlers:
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
+            handlers=[
+                logging.FileHandler(log_path, encoding="utf-8"),
+                logging.StreamHandler()
+            ]
+        )
 
 def normalize_sheet_name(sheet_name: str) -> str:
     """工作表名称规范为MySQL合法表名"""
@@ -88,7 +70,7 @@ def get_mysql_type(series: pd.Series, col_name: str) -> str:
         return "BIGINT"
 
     if pd.api.types.is_float_dtype(series):
-        return "DECIMAL(9, 4)"
+        return "DECIMAL(13, 3)"
 
     return "TEXT"
 
@@ -197,19 +179,22 @@ def create_table_with_key_as_pk(conn, df: pd.DataFrame, table_name: str):
     logging.info(f"✅ 表 `{table_name}` 已重建 (主键: {PRIMARY_KEY_COLUMN})")
 
 
-def connect_mysql():
+def connect_mysql(database: str):
+    config = DB_CONFIG.copy()
+    config["database"] = database
+
     try:
-        conn = pymysql.connect(**DB_CONFIG, cursorclass=cursors.DictCursor)
-        logging.info("✅ MySQL 连接成功")
+        conn = pymysql.connect(**config, cursorclass=cursors.DictCursor)
+        logging.info("✅ MySQL 连接数据库 {database} 成功")
         return conn
     except Exception as e:
-        logging.error(f"❌ MySQL 连接失败：{e}")
+        logging.error(f"❌ MySQL 连接数据库 {database} 失败：{e}")
         return None
 
 
-def sync_dataframe_to_table(df: pd.DataFrame, table_name: str) -> bool:
+def sync_dataframe_to_table(df: pd.DataFrame, table_name: str, target_database: str) -> bool:
     """文件数据同步到MySQL表"""
-    conn = connect_mysql()
+    conn = connect_mysql(target_database)
     if not conn or df is None or df.empty:
         return False
 
@@ -255,7 +240,7 @@ def read_and_preprocess_csv(file_path: str, source_info: str) -> Optional[pd.Dat
         df = pd.read_csv(file_path, encoding='latin-1', on_bad_lines='skip', dtype=str, keep_default_na=False, na_values=[''])
     return preprocess_dataframe(df, source_info)
 
-def sync_single_file_all_sheets(file_path: str, filename: str):
+def sync_single_file_all_sheets(file_path: str, filename: str, target_database: str) -> int:
     """
     同步单个Excel文件中的所有工作表到独立的MySQL表
 
@@ -263,7 +248,7 @@ def sync_single_file_all_sheets(file_path: str, filename: str):
     - 单工作表：filename -> tablename
     - 多工作表：filename + _ + normalized_sheet_name -> tablename
     """
-    logging.info(f" 开始处理文件：{filename}")
+    logging.info(f" 开始处理文件：{filename} → 数据库: {target_database}")
     base_table_name = filename_to_base_table_name(filename)
     success_count = 0
 
@@ -290,24 +275,16 @@ def sync_single_file_all_sheets(file_path: str, filename: str):
                 df = preprocess_dataframe(df, source_info)
                 if df is None or df.empty:
                     continue
-
-            #生成表名
-                if len(sheet_names) == 1:
-                    #单工作表：直接使用文件名作为表名
-                    final_table_name = base_table_name
-                else:
-                    #多工作表：文件名_工作表名
-                    normalize_sheet = normalize_sheet_name(sheet_name)
-                    final_table_name = f"{base_table_name}_{normalize_sheet}"
-
-                if sync_dataframe_to_table(df, final_table_name):
+                # 生成表名
+                final_name = base_table_name if len(sheet_name) == 1 else f"{base_table_name}_{normalize_sheet_name(sheet_name)}"
+                if sync_dataframe_to_table(df, final_name, target_database):
                     success_count += 1
+
         #处理 CSV 文件（单表）
         elif filename.lower().endswith(".csv"):
-            source_info = filename
-            df = read_and_preprocess_csv(file_path, source_info)
+            df = read_and_preprocess_csv(file_path, filename)
             if df is not None and not df.empty:
-                if sync_dataframe_to_table(df, base_table_name):
+                if sync_dataframe_to_table(df, base_table_name, target_database):
                     success_count += 1
             else:
                 logging.warning(f" ! CSV 文件为空或无效：{filename}")
@@ -317,23 +294,47 @@ def sync_single_file_all_sheets(file_path: str, filename: str):
 
     return success_count
 
-def batch_sync_all_files():
-    """批量同步所有Excel文件及其所有工作表"""
+def sync_all_directories():
+    """自动同步 config 中定义的所有 data 目录到对应数据库"""
     setup_logging()
-    files = get_supported_files()
-    if not files:
-        logging.warning(" !data/ 目录下没有找到 .xlsx, .xls, .csv 文件")
-        return
+    logging.info("开始多目录同步任务...")
 
-    logging.info(f" 发现 {len(files)}个文件：{files}")
-    total_success = 0
-    total_files = len(files)
+    total_files_processed = 0
+    total_tables_synced = 0
 
-    for filename in files:
-        filename = str(filename)
-        file_path = os.path.join(DATA_DIR, filename)
-        success_count = sync_single_file_all_sheets(file_path, filename)
-        total_success += success_count
+    for dir_name, target_db in DATA_DIR_TO_DATABASE.items():
+        full_dir = os.path.join(PROJECT_ROOT, dir_name)
+        if not os.path.isdir(full_dir):
+            logging.warning(f" 目录不存在，跳过: {full_dir}")
+            continue
 
-    logging.info(f"✅ 批量同步完成：共处理 {total_files} 个文件，成功同步{total_success} 个工作表")
-        
+        files = [
+            f for f in os.listdir(full_dir)
+            if f.lower().endswith(ALL_SUPPORTED_EXTENSIONS)
+            and f not in IGNORE_FILES
+            and not f.startswith("~$")
+        ]
+
+        if not files:
+            logging.info(f" 目录 {dir_name} 下无待处理文件")
+            continue
+
+        logging.info(f" 处理目录: {dir_name} → 数据库: {target_db} ({len(files)}) 个文件）")
+        tables_in_dir = 0
+        for filename in files:
+            file_path = os.path.join(full_dir, filename)
+            synced = sync_single_file_all_sheets(file_path, filename, target_db)
+            tables_in_dir += synced
+            total_files_processed += 1
+
+        total_tables_synced += tables_in_dir
+        logging.info(f" 目录 {dir_name} 完成：同步 {tables_in_dir} 张表")
+
+    logging.info(f" 全部完成！共处理 {total_files_processed} 个文件，同步 {total_tables_synced} 张表到对应数据库")
+
+
+
+
+
+
+

@@ -5,9 +5,11 @@ import os
 import re
 from typing import Optional
 from pymysql import cursors
+from schedule import clear
+
 from config import (
     DB_CONFIG, DATE_FORMAT, MONEY_COLUMNS,
-    IGNORE_FILES, PRIMARY_KEY_COLUMN, ALL_SUPPORTED_EXTENSIONS,
+    IGNORE_FILES, ALL_SUPPORTED_EXTENSIONS,
     DATA_DIR_TO_DATABASE, PROJECT_ROOT
 
 )
@@ -31,29 +33,49 @@ def normalize_sheet_name(sheet_name: str) -> str:
     #转小写
     name = str(sheet_name).lower()
     #替换空格、连字符为下划线
-    name = re.sub(r'[^a-zA-Z0-9]', '_' , name)
+    name = re.sub(r'[\\/:*?"<>|\s%]', '_' , name)
     #去除连续下划线
     name = re.sub(r'_+', '_', name)
     #去除首尾下划线
     name = name.strip('_')
     #如果工作表名为空则加后缀
-    if not name or name[0].isdigit():
-        name = "sheet_" + name if name else "sheet"
+    if not name:
+        name = "sheet"
+    elif name[0].isdigit():
+        name = name
+
+    if len(name) > 50:
+        name = name[:50].rstrip('_')
+
     return name
 
 def filename_to_base_table_name(filename: str) -> str:
     """文件名规范为MySQL合法表名，同上"""
-    base_name = os.path.splitext(filename)[0].lower()
-    base_name = re.sub(r'[^a-zA-Z0-9]', '_' , base_name)
+    # 1. 去掉扩展名
+    base_name = os.path.splitext(filename)[0]
+
+    # 2. 替换 MySQL 标识符中的非法字符为下划线
+    #    包括：\ / : * ? " < > | 空格 制表符 换行等
+    base_name = re.sub(r'[\\/:*?"<>|\s%]', '_', base_name)
+
+    # 3. 合并多个连续下划线为一个
     base_name = re.sub(r'_+', '_', base_name).strip('_')
-    if not base_name or base_name[0].isdigit():
-        base_name = "table_" + base_name if base_name else "table"
+
+    # 4. 处理空或以数字开头的情况
+    if not base_name:
+        base_name = "表"
+    elif base_name[0].isdigit():
+        base_name = "表_" + base_name
+
+    # 5. 截断至安全长度（MySQL表名最大64字符，保守截到50字符）
+    if len(base_name) > 50:
+        base_name = base_name[:50].rstrip('_')
+
     return base_name
 
 def get_mysql_type(series: pd.Series, col_name: str) -> str:
-    #Key列强制为BIGINT主键
-    if col_name == PRIMARY_KEY_COLUMN:
-        return "BIGINT"
+
+    _ = col_name
 
     if pd.api.types.is_datetime64_any_dtype(series):
         return "DATE"
@@ -89,34 +111,10 @@ def preprocess_dataframe(df: pd.DataFrame, source_info: str) -> Optional[pd.Data
     df.columns = [str(col).strip() for col in df.columns]
     df = df.loc[:, ~df.columns.duplicated()]
 
-    #检测主键列存在
-    if PRIMARY_KEY_COLUMN not in df.columns:
-        logging.error(f"❌ 缺少主键列 '{PRIMARY_KEY_COLUMN}': {source_info}")
-        return None
-
     #移除全空行
     df.dropna(how='all', inplace=True)
     if df.empty:
         logging.warning(f" ！移除空行后数据为空：{source_info}")
-        return None
-
-    #移除非主键列全为空的行
-    none_key_columns = [col for col in df.columns if col != PRIMARY_KEY_COLUMN]
-    if none_key_columns:
-        df = df.dropna(subset=none_key_columns, how='all')
-        if df.empty:
-            logging.warning(f" !所有数据行在非主键列均为空：{source_info}")
-            return None
-
-    try:
-        df[PRIMARY_KEY_COLUMN] = pd.to_numeric(df[PRIMARY_KEY_COLUMN], errors='coerce')
-        df = df.dropna(subset=[PRIMARY_KEY_COLUMN]) #再次移除转换失败的主键
-        if df.empty:
-            logging.error(f"❌ 主键列无法转化为数字：{source_info}")
-            return None
-
-    except Exception as e:
-        logging.error(f"❌ 主键列转换失败：{source_info} - {e}")
         return None
 
     #日期列自动识别
@@ -147,36 +145,29 @@ def preprocess_dataframe(df: pd.DataFrame, source_info: str) -> Optional[pd.Data
 
     #纯整数的浮点列转回整数
     for col in df.columns:
-        if col == PRIMARY_KEY_COLUMN:
-            continue
         #检测是否所有非空值都为整数
         if pd.api.types.is_float_dtype(df[col]):
             non_na = df[col].dropna()
             if not non_na.empty and (non_na % 1 == 0).all():
                 df[col] = df[col].astype('Int64')
                 logging.debug(f" 列 '{col}' 已从 float 转为整数 ({source_info})")
-
     return df
 
-def create_table_with_key_as_pk(conn, df: pd.DataFrame, table_name: str):
+def create_table_if_not_exists(conn, df: pd.DataFrame, table_name: str):
     """创建自增主键的MySQL数据表"""
-    columns_def = []
+    columns_def = ["`索引` BIGINT AUTO_INCREMENT PRIMARY KEY"]
 
     for col in df.columns:
         mysql_type = get_mysql_type(df[col], col)
         col_def = f"`{col}` {mysql_type}"
-        if col == PRIMARY_KEY_COLUMN:
-            col_def += " PRIMARY KEY"
         columns_def.append(col_def)
 
-    create_sql = f"CREATE TABLE `{table_name}` ({', '.join(columns_def)}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
+    create_sql = f"CREATE TABLE IF NOT EXISTS `{table_name}` ({', '.join(columns_def)}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
 
     with conn.cursor() as cursor:
-        cursor.execute(f"DROP TABLE IF EXISTS `{table_name}`")
         cursor.execute(create_sql)
-
     conn.commit()
-    logging.info(f"✅ 表 `{table_name}` 已重建 (主键: {PRIMARY_KEY_COLUMN})")
+    logging.info(f"✅ 表 `{table_name}` 已创建")
 
 
 def connect_mysql(database: str):
@@ -185,7 +176,7 @@ def connect_mysql(database: str):
 
     try:
         conn = pymysql.connect(**config, cursorclass=cursors.DictCursor)
-        logging.info("✅ MySQL 连接数据库 {database} 成功")
+        logging.info(f"✅ MySQL 连接数据库 {database} 成功")
         return conn
     except Exception as e:
         logging.error(f"❌ MySQL 连接数据库 {database} 失败：{e}")
@@ -199,15 +190,27 @@ def sync_dataframe_to_table(df: pd.DataFrame, table_name: str, target_database: 
         return False
 
     try:
-        # 每次重建表（全量覆盖，结构+数据）
-        create_table_with_key_as_pk(conn, df, table_name)
+        #清洗列名
+        original_columns = df.columns.tolist()
+        cleaned_columns = []
+        for col in original_columns:
+            clean_col = re.sub(r'[\\/:*?"<>|\s%]', '_', str(col))
+            clean_col = re.sub(r'_+', '_', clean_col).strip('_')
+            if not clean_col:
+                clean_col = "column"
+            cleaned_columns.append(clean_col)
+        df.columns = cleaned_columns
 
-        #准备 INSERT
+        # 确保表存在（带自增id）
+
+        create_table_if_not_exists(conn, df, table_name)
+        with conn.cursor() as cursor:
+            cursor.execute(f"TRUNCATE TABLE `{table_name}`")
+
         cols = [f"`{col}`" for col in df.columns]
-        placeholders = ",".join(["%s"] * len(cols))
+        placeholders = ", ".join(["%s"] * len(cols))
         sql = f"INSERT INTO `{table_name}` ({', '.join(cols)}) VALUES ({placeholders})"
 
-        #转换NaN为None
         data = []
         for row in df.values:
             clear_row = [None if pd.isna(val) else val for val in row]
@@ -219,7 +222,6 @@ def sync_dataframe_to_table(df: pd.DataFrame, table_name: str, target_database: 
         conn.commit()
         logging.info(f"✅ 同步成功：表 `{table_name}` ← {len(data)} 行")
         return True
-
     except Exception as e:
         conn.rollback()
         logging.error(f"❌ 同步失败：`{table_name}` - {e}", exc_info=True)
@@ -260,6 +262,8 @@ def sync_single_file_all_sheets(file_path: str, filename: str, target_database: 
                 logging.warning(f" !Excel 无工作表：{filename}")
                 return 0
 
+            total_sheets = len(sheet_names)
+
         #遍历每个工作表
             for sheet_name in sheet_names:
                 source_info = f"{filename}/{sheet_name}"
@@ -276,7 +280,12 @@ def sync_single_file_all_sheets(file_path: str, filename: str, target_database: 
                 if df is None or df.empty:
                     continue
                 # 生成表名
-                final_name = base_table_name if len(sheet_name) == 1 else f"{base_table_name}_{normalize_sheet_name(sheet_name)}"
+                if total_sheets == 1:
+                    final_name = base_table_name
+                else:
+                    sheet_part = normalize_sheet_name(sheet_name)
+                    final_name = f"{base_table_name}_{sheet_part}"
+
                 if sync_dataframe_to_table(df, final_name, target_database):
                     success_count += 1
 

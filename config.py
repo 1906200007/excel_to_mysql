@@ -1,4 +1,5 @@
 import os
+import sys
 from typing import Dict
 
 EXCEL_FILE_EXTENSION = (".xlsx", ".xls")
@@ -7,7 +8,15 @@ ALL_SUPPORTED_EXTENSIONS = EXCEL_FILE_EXTENSION + CSV_EXTENSION
 TARGET_DATABASE = "kayson_db"
 DEFAULT_DATABASE = "kayson_db"
 
-PROJECT_ROOT:str = os.path.dirname(os.path.abspath(__file__))
+def get_project_root() -> str:
+    """获取程序根目录（兼容 .py 开发 和 .exe 打包）"""
+    if getattr(sys, 'frozen', False):
+        # False为打包模式,True为开发模式
+        return os.path.dirname(os.path.abspath(sys.executable))
+    else:
+        return os.path.dirname(os.path.abspath(__file__))
+
+PROJECT_ROOT: str = get_project_root()
 LOG_FILE = os.path.join(PROJECT_ROOT, "logs", "sync.log")
 
 DATA_DIR_TO_DATABASE: Dict[str, str] = {
@@ -40,8 +49,6 @@ DB_CONFIG = {
     "password": "kayson",
     "charset": "utf8mb4",
 }
-
-PRIMARY_KEY_COLUMN = "Key"
 
 SYNC_MODE = "replace"
 LOG_FILE = "logs/sync.log"

@@ -2190,3 +2190,125 @@ TypeError: not enough arguments for format string
 2025-12-05 14:13:04,696 | root | INFO | ✅ 同步成功：表 `Canada` ← 46102 行
 2025-12-05 14:13:04,701 | root | INFO |  目录 data7 完成：同步 1 张表
 2025-12-05 14:13:04,701 | root | INFO |  全部完成！共处理 4 个文件，同步 6 张表到对应数据库
+2025-12-05 17:50:25,931 | root | INFO | 开始多目录同步任务...
+2025-12-05 17:50:25,931 | root | INFO |  处理目录: data → 数据库: kayson_db (1) 个文件）
+2025-12-05 17:50:25,931 | root | INFO |  开始处理文件：2025年销售明细1121.xlsx → 数据库: kayson_db
+2025-12-05 17:50:26,146 | root | INFO | 日期列 '日期' 已转换 (2025年销售明细1121.xlsx/11月)
+2025-12-05 17:50:26,173 | root | INFO | ✅ MySQL 连接数据库 kayson_db 成功
+2025-12-05 17:50:26,185 | root | INFO | ✅ 表 `表_2025年销售明细1121_11月` 已创建
+2025-12-05 17:50:26,252 | root | ERROR | ❌ 同步失败：`表_2025年销售明细1121_11月` - (1366, "Incorrect integer value: '物料订单' for column '价格判断' at row 37")
+Traceback (most recent call last):
+  File "E:\PycharmProjects\excel_to_mysql\excel_to_mysql.py", line 220, in sync_dataframe_to_table
+    cursor.executemany(sql, data)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 182, in executemany
+    return self._do_execute_many(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        q_prefix,
+        ^^^^^^^^^
+    ...<4 lines>...
+        self._get_db().encoding,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 220, in _do_execute_many
+    rows += self.execute(sql + postfix)
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "E:\PycharmProjects\excel_to_mysql\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.DataError: (1366, "Incorrect integer value: '物料订单' for column '价格判断' at row 37")
+2025-12-05 17:50:26,312 | root | INFO | ✅ MySQL 连接数据库 kayson_db 成功
+2025-12-05 17:50:26,317 | root | INFO | ✅ 表 `表_2025年销售明细1121_12月` 已创建
+2025-12-05 17:50:26,343 | root | INFO | ✅ 同步成功：表 `表_2025年销售明细1121_12月` ← 19 行
+2025-12-05 17:50:26,374 | root | INFO | ✅ MySQL 连接数据库 kayson_db 成功
+2025-12-05 17:50:26,379 | root | INFO | ✅ 表 `表_2025年销售明细1121_特殊` 已创建
+2025-12-05 17:50:26,411 | root | INFO | ✅ 同步成功：表 `表_2025年销售明细1121_特殊` ← 5 行
+2025-12-05 17:50:26,411 | root | INFO |  目录 data 完成：同步 2 张表
+2025-12-05 17:50:26,412 | root | INFO |  处理目录: data1 → 数据库: kayson_db1 (1) 个文件）
+2025-12-05 17:50:26,412 | root | INFO |  开始处理文件：Nigeria.xlsx → 数据库: kayson_db1
+2025-12-05 17:50:30,449 | root | INFO | 金额列 'Revenue' 已处理 (Nigeria.xlsx/Nigeria)
+2025-12-05 17:50:30,479 | root | INFO | ✅ MySQL 连接数据库 kayson_db1 成功
+2025-12-05 17:50:30,509 | root | INFO | ✅ 表 `Nigeria` 已创建
+2025-12-05 17:50:32,931 | root | INFO | ✅ 同步成功：表 `Nigeria` ← 204905 行
+2025-12-05 17:50:32,951 | root | INFO |  目录 data1 完成：同步 1 张表
+2025-12-05 17:50:32,951 | root | INFO |  处理目录: data2 → 数据库: kayson_db2 (1) 个文件）
+2025-12-05 17:50:32,951 | root | INFO |  开始处理文件：Germany.xlsx → 数据库: kayson_db2
+2025-12-05 17:50:35,553 | root | INFO | 金额列 'Revenue' 已处理 (Germany.xlsx/Germany)
+2025-12-05 17:50:35,570 | root | INFO | ✅ MySQL 连接数据库 kayson_db2 成功
+2025-12-05 17:50:35,590 | root | INFO | ✅ 表 `Germany` 已创建
+2025-12-05 17:50:37,224 | root | INFO | ✅ 同步成功：表 `Germany` ← 137619 行
+2025-12-05 17:50:37,236 | root | INFO |  目录 data2 完成：同步 1 张表
+2025-12-05 17:50:37,236 | root | INFO |  目录 data3 下无待处理文件
+2025-12-05 17:50:37,236 | root | INFO |  目录 data4 下无待处理文件
+2025-12-05 17:50:37,236 | root | INFO |  目录 data5 下无待处理文件
+2025-12-05 17:50:37,236 | root | INFO |  目录 data6 下无待处理文件
+2025-12-05 17:50:37,236 | root | INFO |  处理目录: data7 → 数据库: kayson_db7 (1) 个文件）
+2025-12-05 17:50:37,236 | root | INFO |  开始处理文件：Canada.csv → 数据库: kayson_db7
+2025-12-05 17:50:37,270 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-12-05 17:50:37,288 | root | INFO | 金额列 'Revenue' 已处理 (Canada.csv)
+2025-12-05 17:50:37,313 | root | INFO | ✅ MySQL 连接数据库 kayson_db7 成功
+2025-12-05 17:50:37,335 | root | INFO | ✅ 表 `Canada` 已创建
+2025-12-05 17:50:37,920 | root | INFO | ✅ 同步成功：表 `Canada` ← 46102 行
+2025-12-05 17:50:37,924 | root | INFO |  目录 data7 完成：同步 1 张表
+2025-12-05 17:50:37,924 | root | INFO |  全部完成！共处理 4 个文件，同步 5 张表到对应数据库
+2025-12-07 09:31:25,648 | root | INFO | 开始多目录同步任务...
+2025-12-07 09:31:25,649 | root | INFO |  处理目录: data → 数据库: kayson_db (1) 个文件）
+2025-12-07 09:31:25,649 | root | INFO |  开始处理文件：2025年销售明细1121.xlsx → 数据库: kayson_db
+2025-12-07 09:31:26,085 | root | INFO | 日期列 '日期' 已转换 (2025年销售明细1121.xlsx/11月)
+2025-12-07 09:31:26,093 | root | INFO | 自动识别并处理金额列 '价格判断' (2025年销售明细1121.xlsx/11月)
+2025-12-07 09:31:26,095 | root | INFO | 自动识别并处理金额列 '合同价类型' (2025年销售明细1121.xlsx/11月)
+2025-12-07 09:31:26,098 | root | INFO | 自动识别并处理金额列 '价格类型+助记码' (2025年销售明细1121.xlsx/11月)
+2025-12-07 09:31:26,135 | root | INFO | ✅ MySQL 连接数据库 kayson_db 成功
+2025-12-07 09:31:26,155 | root | INFO | ✅ 表 `表_2025年销售明细1121_11月` 已创建
+2025-12-07 09:31:26,306 | root | INFO | ✅ 同步成功：表 `表_2025年销售明细1121_11月` ← 1658 行
+2025-12-07 09:31:26,351 | root | INFO | ✅ MySQL 连接数据库 kayson_db 成功
+2025-12-07 09:31:26,363 | root | INFO | ✅ 表 `表_2025年销售明细1121_12月` 已创建
+2025-12-07 09:31:26,410 | root | INFO | ✅ 同步成功：表 `表_2025年销售明细1121_12月` ← 19 行
+2025-12-07 09:31:26,429 | root | INFO | ✅ MySQL 连接数据库 kayson_db 成功
+2025-12-07 09:31:26,436 | root | INFO | ✅ 表 `表_2025年销售明细1121_特殊` 已创建
+2025-12-07 09:31:26,477 | root | INFO | ✅ 同步成功：表 `表_2025年销售明细1121_特殊` ← 5 行
+2025-12-07 09:31:26,477 | root | INFO |  目录 data 完成：同步 3 张表
+2025-12-07 09:31:26,477 | root | INFO |  处理目录: data1 → 数据库: kayson_db1 (1) 个文件）
+2025-12-07 09:31:26,477 | root | INFO |  开始处理文件：Nigeria.xlsx → 数据库: kayson_db1
+2025-12-07 09:31:33,089 | root | INFO | ✅ MySQL 连接数据库 kayson_db1 成功
+2025-12-07 09:31:33,131 | root | INFO | ✅ 表 `Nigeria` 已创建
+2025-12-07 09:31:37,166 | root | INFO | ✅ 同步成功：表 `Nigeria` ← 204905 行
+2025-12-07 09:31:37,210 | root | INFO |  目录 data1 完成：同步 1 张表
+2025-12-07 09:31:37,211 | root | INFO |  处理目录: data2 → 数据库: kayson_db2 (1) 个文件）
+2025-12-07 09:31:37,211 | root | INFO |  开始处理文件：Germany.xlsx → 数据库: kayson_db2
+2025-12-07 09:31:40,921 | root | INFO | ✅ MySQL 连接数据库 kayson_db2 成功
+2025-12-07 09:31:40,952 | root | INFO | ✅ 表 `Germany` 已创建
+2025-12-07 09:31:43,429 | root | INFO | ✅ 同步成功：表 `Germany` ← 137619 行
+2025-12-07 09:31:43,445 | root | INFO |  目录 data2 完成：同步 1 张表
+2025-12-07 09:31:43,446 | root | INFO |  目录 data3 下无待处理文件
+2025-12-07 09:31:43,446 | root | INFO |  目录 data4 下无待处理文件
+2025-12-07 09:31:43,446 | root | INFO |  目录 data5 下无待处理文件
+2025-12-07 09:31:43,446 | root | INFO |  目录 data6 下无待处理文件
+2025-12-07 09:31:43,446 | root | INFO |  处理目录: data7 → 数据库: kayson_db7 (1) 个文件）
+2025-12-07 09:31:43,446 | root | INFO |  开始处理文件：Canada.csv → 数据库: kayson_db7
+2025-12-07 09:31:43,502 | root | INFO | 日期列 'Date' 已转换 (Canada.csv)
+2025-12-07 09:31:43,567 | root | INFO | 自动识别并处理金额列 'Revenue' (Canada.csv)
+2025-12-07 09:31:43,584 | root | INFO | ✅ MySQL 连接数据库 kayson_db7 成功
+2025-12-07 09:31:43,608 | root | INFO | ✅ 表 `Canada` 已创建
+2025-12-07 09:31:44,315 | root | INFO | ✅ 同步成功：表 `Canada` ← 46102 行
+2025-12-07 09:31:44,322 | root | INFO |  目录 data7 完成：同步 1 张表
+2025-12-07 09:31:44,322 | root | INFO |  全部完成！共处理 4 个文件，同步 6 张表到对应数据库

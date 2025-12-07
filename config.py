@@ -52,10 +52,9 @@ DB_CONFIG = {
 
 SYNC_MODE = "replace"
 LOG_FILE = "logs/sync.log"
-#同步时间
-SCHEDULE_TIME = "10:00"
-
 DATE_FORMAT = "%Y/%m/%d"
-
-MONEY_COLUMNS = ["Revenue", "Price", "Amount", "Cost",  "Salary", "Total", "Value"]
+MONEY_KEYWORDS = {
+    'zh': ['金额', '价', '费用', '成本', '收入', '合计', '总额', '税', '折扣', '利润'],
+    'en': ['amount', 'price', 'cost', 'fee', 'total', 'sum', 'revenue', 'income', 'discount', 'tax']
+}
 IGNORE_FILES = ["template.xlsx", "backup.xlsx"]

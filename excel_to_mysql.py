@@ -8,7 +8,7 @@ from pymysql import cursors
 from schedule import clear
 
 from config import (
-    DB_CONFIG, DATE_FORMAT, MONEY_COLUMNS,
+    DB_CONFIG, DATE_FORMAT, MONEY_KEYWORDS,
     IGNORE_FILES, ALL_SUPPORTED_EXTENSIONS,
     DATA_DIR_TO_DATABASE, PROJECT_ROOT
 
@@ -96,6 +96,19 @@ def get_mysql_type(series: pd.Series, col_name: str) -> str:
 
     return "TEXT"
 
+def is_likely_money_column(col_name: str) -> bool:
+    """根据列名判断是否可能是金额列"""
+    col_lower = str(col_name).lower()
+    # 中文匹配（直接包含）
+    for kw in MONEY_KEYWORDS['zh']:
+        if kw in col_name:
+            return True
+    # 英文匹配
+    for kw in MONEY_KEYWORDS['en']:
+        if kw in col_lower:
+            return True
+    return False
+
 def preprocess_dataframe(df: pd.DataFrame, source_info: str) -> Optional[pd.DataFrame]:
     """
     预处理可能出现的字段（日期、金额等）
@@ -106,6 +119,8 @@ def preprocess_dataframe(df: pd.DataFrame, source_info: str) -> Optional[pd.Data
     if df.empty:
         logging.warning(f" ！空工作表：{source_info}")
         return None
+
+    df = df.copy()
 
     #清理列名
     df.columns = [str(col).strip() for col in df.columns]
@@ -132,16 +147,26 @@ def preprocess_dataframe(df: pd.DataFrame, source_info: str) -> Optional[pd.Data
             logging.debug(f"跳过日期解析 '{col}': {e}")
             continue
 
-    # 金额列处理
-    for col in MONEY_COLUMNS:
-            if col in df.columns:
-                #清理逗号和货币符号
+    for col in df.columns:
+        if is_likely_money_column(col):
+            try:
                 if df[col].dtype == 'object':
-                    cleaned = df[col].astype(str).str.replace(r'[,$€£¥₹%\s]', '', regex=True)
+                    # 清理非数字字符（保留数字、小数点、负号）
+                    cleaned = (
+                        df[col].astype(str)
+                        .str.replace(r'[^\d.\-]', '', regex=True)
+                        .str.replace(r'^(-)?\.$', r'\g<1>0.0', regex=True)  # "-." → "-0.0"
+                        .str.replace(r'^(-)?\.(\d)', r'\g<1>0.\2', regex=True)  # ".5" → "0.5", "-.5" → "-0.5"
+                        .str.replace(r'\.+', '.', regex=True)
+                        .str.replace(r'\.$', '.0', regex=True)  # "123." → "123.0"
+                    )
                     df[col] = pd.to_numeric(cleaned, errors='coerce')
+                    logging.info(f"自动识别并处理金额列 '{col}' ({source_info})")
                 else:
-                    df[col] = pd.to_numeric(df[col], errors="coerce")
-                logging.info(f"金额列 '{col}' 已处理 ({source_info})")
+                    # 已是数值型，确保为 numeric（防止 object 类型的数字）
+                    df[col] = pd.to_numeric(df[col], errors='coerce')
+            except Exception as e:
+                logging.warning(f"! 金额列 '{col}' 处理异常: {e} ({source_info})")
 
     #纯整数的浮点列转回整数
     for col in df.columns:
